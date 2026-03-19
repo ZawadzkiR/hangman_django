@@ -2,6 +2,7 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.templatetags.static import static
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_POST
 
 from .forms import CreateRoomForm, DIFFICULTY_CHOICES, JoinRoomForm, SaveScoreForm, StartGameForm
@@ -277,6 +278,7 @@ def api_new_round(request):
     return JsonResponse({'ok': True, 'game': new_game, 'stats': current_stats(new_game)})
 
 
+@never_cache
 @require_GET
 def api_room_state(request, code):
     room = get_object_or_404(MultiplayerRoom, code=code.upper())

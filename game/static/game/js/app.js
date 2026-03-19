@@ -202,7 +202,9 @@
       if (data.room.status === 'finished') openModal(data); else closeModal();
     }
     async function pollState() {
-      const response = await fetch(room.dataset.stateUrl);
+      const sep = room.dataset.stateUrl.includes('?') ? '&' : '?';
+      const url = `${room.dataset.stateUrl}${sep}_=${Date.now()}`;
+      const response = await fetch(url, { cache: 'no-store', credentials: 'same-origin' });
       const data = await response.json();
       if (data.ok) renderState(data.state);
     }
@@ -228,7 +230,7 @@
     const url = form.dataset.categoriesUrl;
     if (!languageSelect || !categorySelect || !url) return;
     async function reloadCategories() {
-      const response = await fetch(`${url}?language=${encodeURIComponent(languageSelect.value)}`);
+      const response = await fetch(`${url}?language=${encodeURIComponent(languageSelect.value)}&_=${Date.now()}`, { cache: 'no-store', credentials: 'same-origin' });
       const data = await response.json();
       if (!data.ok) return;
       const current = categorySelect.value;
