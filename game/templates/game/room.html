@@ -1,0 +1,106 @@
+{% extends 'game/base.html' %}
+{% block body_class %}room-page{% endblock %}
+{% block title %}{{ tr.vs_mode }}{% endblock %}
+{% block content %}
+<section id="room-app" class="board-shell game-screen"
+  data-state-url="{% url 'api_room_state' room.code %}"
+  data-ready-url="{% url 'api_room_ready' room.code %}"
+  data-start-url="{% url 'api_room_start' room.code %}"
+  data-next-round-url="{% url 'api_room_next_round' room.code %}"
+  data-guess-url="{% url 'api_room_guess' room.code %}"
+  data-leave-url="{% url 'api_room_leave' room.code %}"
+  data-csrf="{{ csrf_token }}"
+  data-none-label="{{ tr.none }}"
+  data-hit-msg="{{ tr.hit_msg }}"
+  data-miss-msg="{{ tr.miss_msg }}"
+  data-already-used="{{ tr.already_used }}"
+  data-status-waiting="{{ tr.status_waiting }}"
+  data-status-playing="{{ tr.status_playing }}"
+  data-status-round-over="{{ tr.status_round_over }}"
+  data-status-finished="{{ tr.match_finished }}"
+  data-ready-label="{{ tr.ready_up }}"
+  data-ready-done="{{ tr.ready_up }} ✓"
+>
+  <div class="hud-row hud-row-4">
+    <div class="score-box"><span>{{ tr.room_code }}</span><strong id="room-code-value">{{ room.code }}</strong></div>
+    <div class="score-box"><span>{{ tr.round }}</span><strong id="room-round-value">{{ state.room.round_number }}/{{ state.room.max_rounds }}</strong></div>
+    <div class="score-box"><span>{{ tr.timer }}</span><strong id="room-timer-value">{{ state.room.seconds_left }}</strong></div>
+    <div class="score-box"><span>{{ tr.score }}</span><strong id="room-score-value">{{ state.you.score }}</strong></div>
+  </div>
+
+  <div class="word-zone">
+    <div class="filter-chip-row"><span class="filter-chip">{{ tr.difficulty }}: {{ room.difficulty_mode }}</span><span class="filter-chip">{{ tr.category }}: {{ room.category_mode }}</span><span class="filter-chip">{{ tr.mistake_mode }}: <span id="room-max-mistakes">{{ state.room.max_mistakes }}</span></span><span class="filter-chip">{{ tr.room_players }}: <span id="room-player-count">{{ state.room.player_count }}</span></span></div>
+    <div class="category-line"><span>{{ tr.category }}:</span> <strong id="room-category-text">{{ state.room.current_category }}</strong></div>
+    <div id="room-word-line" class="word-line">{{ state.you.stats.masked_word }}</div>
+    <div class="status-line"><span>{{ tr.your_status }}:</span> <strong id="room-status-text">{{ state.you.status }}</strong></div>
+  </div>
+
+  <div class="middle-zone">
+    <div class="hangman-zone">
+      <svg class="hangman-svg" viewBox="0 0 260 280" aria-hidden="true">
+                <line class="gallows" x1="24" y1="252" x2="154" y2="252"></line>
+                <line class="gallows" x1="64" y1="252" x2="64" y2="28"></line>
+                <line class="gallows" x1="64" y1="28" x2="184" y2="28"></line>
+                <line class="hang-part room-part" data-step="1" x1="184" y1="28" x2="184" y2="52"></line>
+                <circle class="hang-part room-part" data-step="2" cx="184" cy="76" r="24"></circle>
+                <line class="hang-part room-part" data-step="3" x1="184" y1="100" x2="184" y2="154"></line>
+                <line class="hang-part room-part" data-step="4" x1="184" y1="116" x2="154" y2="136"></line>
+                <line class="hang-part room-part" data-step="5" x1="184" y1="116" x2="214" y2="136"></line>
+                <line class="hang-part room-part" data-step="6" x1="184" y1="154" x2="162" y2="192"></line>
+                <line class="hang-part room-part" data-step="7" x1="184" y1="154" x2="206" y2="192"></line>
+                <line class="hang-part room-part" data-step="8" x1="176" y1="70" x2="181" y2="75"></line>
+                <line class="hang-part room-part" data-step="9" x1="181" y1="70" x2="176" y2="75"></line>
+                <line class="hang-part room-part" data-step="10" x1="187" y1="70" x2="192" y2="75"></line>
+                <line class="hang-part room-part" data-step="11" x1="178" y1="86" x2="190" y2="86"></line>
+            </svg>
+    </div>
+    <div class="info-zone room-side compact-info">
+      <p><span>{{ tr.used_letters }}:</span> <strong id="room-used-letters">{% if state.you.stats.guessed_letters %}{{ state.you.stats.guessed_letters|join:', '|upper }}{% else %}{{ tr.none }}{% endif %}</strong></p>
+      <p><span>{{ tr.remaining }}:</span> <strong id="room-remaining-value">{{ state.you.stats.remaining }}</strong></p>
+      <p><span>{{ tr.players_ready }}:</span> <strong id="room-ready-count">{{ state.room.ready_count }}/{{ state.room.player_count }}</strong></p>
+      <p><span>{{ tr.target_score }}:</span> <strong id="room-target-score">{{ state.room.target_score }}</strong></p>
+      <div id="room-live-message" class="live-message"></div>
+    </div>
+  </div>
+
+  <div class="keyboard" id="room-keyboard"></div>
+
+  <div class="room-layout">
+    <section class="room-panel">
+      <h3>{{ tr.player_list }}</h3>
+      <div id="room-players-list" class="players-list"></div>
+    </section>
+    <section class="room-panel">
+      <h3>{{ tr.host_controls }}</h3>
+      <p>{{ tr.share_label }}: <strong>{{ room.code }}</strong></p>
+      <p>{{ tr.max_rounds }}: <strong>{{ room.max_rounds }}</strong></p>
+      <p>{{ tr.target_score }}: <strong>{{ room.target_score }}</strong></p>
+      <p>{{ tr.room_players }}: <strong>{{ state.room.player_count }}</strong></p>
+      <div class="modal-buttons stacked">
+        <button id="room-ready-btn" type="button" class="tray-btn">{{ tr.ready_up }}</button>
+        {% if is_host %}
+        <button id="room-start-btn" type="button" class="tray-btn strong">{{ tr.start_match }}</button>
+        <button id="room-next-btn" type="button" class="tray-btn hidden">{{ tr.next_round_host }}</button>
+        {% endif %}
+      </div>
+      <button id="room-leave-btn" type="button" class="tray-btn wide">{{ tr.leave_room }}</button>
+    </section>
+  </div>
+</section>
+
+<div id="room-modal" class="game-modal hidden" aria-hidden="true">
+  <div class="modal-card">
+    <h2 id="room-modal-title">{{ tr.match_finished }}</h2>
+    <p id="room-modal-text"></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>{{ tr.table_player }}</th><th>{{ tr.table_score }}</th></tr></thead>
+        <tbody id="room-final-table"></tbody>
+      </table>
+    </div>
+    <div class="modal-buttons stacked">
+      <a href="/" class="tray-btn strong">{{ tr.new_game }}</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

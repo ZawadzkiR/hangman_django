@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>{% block title %}{{ tr.app_title }}{% endblock %}</title>
+    <link rel="manifest" href="{% url 'manifest' %}">
+    <meta name="theme-color" content="#1e7b57">
+    <link rel="apple-touch-icon" href="{% static 'game/icons/icon-192.png' %}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="stylesheet" href="{% static 'game/css/style.css' %}">
+    <script defer src="{% static 'game/js/app.js' %}"></script>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <div class="mobile-frame">
+        <header class="topbar">
+            <a class="brand" href="{% url 'home' %}">{{ tr.app_title }}</a>
+            <nav>
+                <a href="{% url 'home' %}">{{ tr.new_game }}</a>
+                <a href="{% url 'leaderboard' %}">{{ tr.leaderboard }}</a>
+                <a href="{% url 'history' %}">{{ tr.history }}</a>
+            </nav>
+            <div class="ui-lang-box">
+                <label for="ui-language-switch">{{ tr.ui_language }}</label>
+                <select id="ui-language-switch" data-url="{% url 'api_set_ui_language' %}" data-csrf="{{ csrf_token }}">
+                    {% for code, label in ui_language_choices %}
+                        <option value="{{ code }}" {% if ui_lang == code %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </header>
+        {% block content %}{% endblock %}
+    </div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('{% url 'service_worker' %}', { scope: '/' });
+        });
+      }
+    </script>
+</body>
+</html>

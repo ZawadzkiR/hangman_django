@@ -1,0 +1,106 @@
+{% extends 'game/base.html' %}
+{% block body_class %}play-page{% endblock %}
+{% block title %}{{ tr.app_title }}{% endblock %}
+{% block content %}
+<section id="game-app" class="board-shell game-screen"
+    data-guess-url="{% url 'api_guess' %}"
+    data-save-url="{% url 'api_save_score' %}"
+    data-new-round-url="{% url 'api_new_round' %}"
+    data-csrf="{{ csrf_token }}"
+    data-none-label="{{ tr.none }}"
+    data-won-label="{{ tr.won_title }}"
+    data-lost-label="{{ tr.lost_title }}"
+    data-hit-msg="{{ tr.hit_msg }}"
+    data-miss-msg="{{ tr.miss_msg }}"
+    data-already-used="{{ tr.already_used }}"
+    data-won-text="{{ tr.won_text }}"
+    data-lost-text="{{ tr.lost_text }}"
+    data-next-word="{{ tr.next_word }}"
+    data-save-label="{{ tr.save_score }}"
+    data-skip-label="{{ tr.skip_save }}"
+    data-continue-label="{{ tr.continue_game }}"
+    data-play-again-label="{{ tr.play_again }}"
+    data-final-word-label="{{ tr.final_word }}"
+>
+    <div class="hud-row">
+        <div class="score-box">
+            <span>{{ tr.score }}</span>
+            <strong id="run-score">{{ game.run_score|default:0 }}</strong>
+        </div>
+        <div class="score-box">
+            <span>{{ tr.streak }}</span>
+            <strong id="streak-value">{{ game.streak|default:0 }}</strong>
+        </div>
+        <div class="score-box">
+            <span>{{ tr.mistakes }}</span>
+            <strong><span id="mistakes-value">{{ game.mistakes }}</span>/{{ game.max_mistakes }}</strong>
+        </div>
+    </div>
+
+    <div class="word-zone">
+        <div class="category-line"><span>{{ tr.category }}:</span> <strong id="category-text">{{ game.category }}</strong></div>
+        <div class="filter-chip-row"><span class="filter-chip">{{ tr.difficulty }}: {{ game.difficulty }}</span><span class="filter-chip">{{ tr.category }}: {{ game.selected_category }}</span><span class="filter-chip">{{ tr.mistake_mode }}: {{ game.max_mistakes }}</span></div>
+        <div id="word-line" class="word-line">{{ stats.masked_word }}</div>
+    </div>
+
+    <div class="middle-zone">
+        <div class="hangman-zone">
+            <svg class="hangman-svg" viewBox="0 0 260 280" aria-hidden="true">
+                <line class="gallows" x1="24" y1="252" x2="154" y2="252"></line>
+                <line class="gallows" x1="64" y1="252" x2="64" y2="28"></line>
+                <line class="gallows" x1="64" y1="28" x2="184" y2="28"></line>
+                <line class="hang-part" data-step="1" x1="184" y1="28" x2="184" y2="52"></line>
+                <circle class="hang-part" data-step="2" cx="184" cy="76" r="24"></circle>
+                <line class="hang-part" data-step="3" x1="184" y1="100" x2="184" y2="154"></line>
+                <line class="hang-part" data-step="4" x1="184" y1="116" x2="154" y2="136"></line>
+                <line class="hang-part" data-step="5" x1="184" y1="116" x2="214" y2="136"></line>
+                <line class="hang-part" data-step="6" x1="184" y1="154" x2="162" y2="192"></line>
+                <line class="hang-part" data-step="7" x1="184" y1="154" x2="206" y2="192"></line>
+                <line class="hang-part" data-step="8" x1="176" y1="70" x2="181" y2="75"></line>
+                <line class="hang-part" data-step="9" x1="181" y1="70" x2="176" y2="75"></line>
+                <line class="hang-part" data-step="10" x1="187" y1="70" x2="192" y2="75"></line>
+                <line class="hang-part" data-step="11" x1="178" y1="86" x2="190" y2="86"></line>
+            </svg>
+        </div>
+        <div class="info-zone compact-info">
+            <p><span>{{ tr.used_letters }}:</span> <strong id="used-letters">{% if stats.guessed_letters %}{{ stats.guessed_letters|join:', '|upper }}{% else %}{{ tr.none }}{% endif %}</strong></p>
+            <p><span>{{ tr.remaining }}:</span> <strong id="remaining-value">{{ stats.remaining }}</strong></p>
+            <div id="live-message" class="live-message"></div>
+        </div>
+    </div>
+
+    <div class="keyboard" id="keyboard">
+        {% for key in stats.keyboard %}
+            <button type="button" class="key-btn" data-letter="{{ key }}">{{ key }}</button>
+        {% endfor %}
+    </div>
+
+    <div class="tray-row">
+        <a href="{% url 'home' %}" class="tray-btn">{{ tr.new_game }}</a>
+    </div>
+</section>
+
+<div id="game-modal" class="game-modal hidden" aria-hidden="true">
+    <div class="modal-card">
+        <h2 id="modal-title"></h2>
+        <p id="modal-text"></p>
+        <p class="modal-score"><span>{{ tr.score }}:</span> <strong id="modal-score-value">0</strong></p>
+        <p class="modal-word"><span>{{ tr.final_word }}:</span> <strong id="modal-word-value"></strong></p>
+
+        <div id="modal-win-actions" class="modal-actions hidden">
+            <button type="button" class="tray-btn strong" id="continue-btn">{{ tr.continue_game }}</button>
+        </div>
+
+        <div id="modal-loss-actions" class="modal-actions hidden">
+            <label for="save-username">{{ tr.login_optional }}</label>
+            <input id="save-username" type="text" maxlength="32" placeholder="{{ tr.username_placeholder }}" value="{{ save_form.initial.username|default:'' }}">
+            <div class="modal-buttons">
+                <button type="button" class="tray-btn strong" id="save-score-btn">{{ tr.save_score }}</button>
+                <button type="button" class="tray-btn" id="skip-save-btn">{{ tr.skip_save }}</button>
+            </div>
+            <button type="button" class="tray-btn wide" id="play-again-btn">{{ tr.play_again }}</button>
+            <div id="save-feedback" class="save-feedback"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

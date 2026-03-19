@@ -1,0 +1,131 @@
+{% extends 'game/base.html' %}
+{% block title %}{{ tr.new_game }}{% endblock %}
+{% block content %}
+<section class="board-shell home-mobile">
+  <div class="board-header">
+    <div>
+      <p class="chalk-small">{{ tr.tagline }}</p>
+      <h1>{{ tr.start_title }}</h1>
+      <p>{{ tr.start_desc }}</p>
+      <p class="chalk-small">{{ tr.mobile_ready }}</p>
+    </div>
+  </div>
+
+  <div class="mode-grid">
+    <article class="mode-card">
+      <h2>{{ tr.solo_mode }}</h2>
+      <p>{{ tr.save_optional }}</p>
+      <form method="post" action="{% url 'start_game' %}" class="start-panel dynamic-category-form" data-categories-url="{% url 'api_categories' %}">
+        {% csrf_token %}
+        <label for="id_language">{{ tr.game_language }}</label>
+        {{ form.language }}
+        <div class="filter-grid">
+          <div>
+            <label>{{ tr.difficulty }}</label>
+            <select name="difficulty">
+              <option value="random">{{ tr.difficulty_random }}</option>
+              <option value="easy">{{ tr.difficulty_easy }}</option>
+              <option value="medium">{{ tr.difficulty_medium }}</option>
+              <option value="hard">{{ tr.difficulty_hard }}</option>
+            </select>
+          </div>
+          <div>
+            <label>{{ tr.category }}</label>
+            <select name="category" class="category-select" data-random-label="{{ tr.category_random }}">
+              {% for value, label in form.fields.category.choices %}<option value="{{ value }}">{% if value == 'random' %}{{ tr.category_random }}{% else %}{{ label }}{% endif %}</option>{% endfor %}
+            </select>
+          </div>
+        </div>
+        <div>
+            <label>{{ tr.mistake_mode }}</label>
+            <select name="mistake_mode">
+              <option value="easy">{{ tr.mistake_easy }}</option>
+              <option value="medium" selected>{{ tr.mistake_medium }}</option>
+              <option value="hard">{{ tr.mistake_hard }}</option>
+            </select>
+          </div>
+        <p class="chalk-small">{{ tr.save_filters }}</p>
+        <button type="submit" class="tray-btn strong">{{ tr.start_button }}</button>
+      </form>
+    </article>
+
+    <article class="mode-card">
+      <h2>{{ tr.vs_mode }}</h2>
+      <p>{{ tr.how_vs_works }}</p>
+      <div class="tabs-card" data-tabs>
+        <div class="tabs-header" role="tablist" aria-label="Multiplayer tabs">
+          <button type="button" class="tab-btn active" data-tab-target="create-room-panel">{{ tr.create_room }}</button>
+          <button type="button" class="tab-btn" data-tab-target="join-room-panel">{{ tr.join_room }}</button>
+        </div>
+        <div id="create-room-panel" class="tab-panel active">
+          <form method="post" action="{% url 'create_room' %}" class="start-panel compact dynamic-category-form inline-form" data-categories-url="{% url 'api_categories' %}">
+            {% csrf_token %}
+            <label>{{ tr.nickname }}</label>
+            <input type="text" name="nickname" maxlength="32" placeholder="{{ tr.nickname_placeholder }}">
+            <label>{{ tr.game_language }}</label>
+            {{ create_form.language }}
+            <div class="filter-grid">
+              <div>
+                <label>{{ tr.difficulty }}</label>
+                <select name="difficulty">
+                  <option value="random">{{ tr.difficulty_random }}</option>
+                  <option value="easy">{{ tr.difficulty_easy }}</option>
+                  <option value="medium">{{ tr.difficulty_medium }}</option>
+                  <option value="hard">{{ tr.difficulty_hard }}</option>
+                </select>
+              </div>
+              <div>
+                <label>{{ tr.category }}</label>
+                <select name="category" class="category-select" data-random-label="{{ tr.category_random }}">
+                  {% for value, label in create_form.fields.category.choices %}<option value="{{ value }}">{% if value == 'random' %}{{ tr.category_random }}{% else %}{{ label }}{% endif %}</option>{% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="host-settings-grid">
+              <div>
+                <label>{{ tr.turn_seconds }}</label>
+                <input type="number" name="turn_seconds" min="15" max="180" value="45">
+              </div>
+              <div>
+                <label>{{ tr.max_rounds }}</label>
+                <input type="number" name="max_rounds" min="3" max="30" value="10">
+              </div>
+              <div class="host-settings-span">
+                <label>{{ tr.target_score }}</label>
+                <input type="number" name="target_score" min="20" max="500" value="120">
+              </div>
+            </div>
+            <div>
+              <label>{{ tr.mistake_mode }}</label>
+              <select name="mistake_mode">
+                <option value="easy">{{ tr.mistake_easy }}</option>
+                <option value="medium" selected>{{ tr.mistake_medium }}</option>
+                <option value="hard">{{ tr.mistake_hard }}</option>
+              </select>
+            </div>
+            <p class="chalk-small">{{ tr.room_unlimited }}</p>
+            <button type="submit" class="tray-btn strong">{{ tr.create_room }}</button>
+          </form>
+        </div>
+        <div id="join-room-panel" class="tab-panel">
+          <form method="post" action="{% url 'join_room' %}" class="start-panel compact join-panel inline-form">
+            {% csrf_token %}
+            <label>{{ tr.room_code }}</label>
+            <input type="text" name="room_code" maxlength="8" placeholder="ABC123">
+            <label>{{ tr.nickname }}</label>
+            <input type="text" name="nickname" maxlength="32" placeholder="{{ tr.nickname_placeholder }}">
+            <label>{{ tr.game_language }}</label>
+            {{ join_form.language }}
+            <button type="submit" class="tray-btn">{{ tr.join_room }}</button>
+          </form>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="start-notes">
+    <p>{{ tr.country_note }}</p>
+    {% if last_player %}<p>{{ tr.player }}: <strong>{{ last_player }}</strong></p>{% endif %}
+  </div>
+</section>
+{% endblock %}

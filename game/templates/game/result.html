@@ -1,0 +1,20 @@
+{% extends 'game/base.html' %}
+{% block title %}Wynik{% endblock %}
+{% block content %}
+<section class="card result-card">
+    <h2>{% if game.status == 'won' %}Wygrana{% else %}Przegrana{% endif %}</h2>
+    <p>Hasło: <strong>{{ game.word }}</strong></p>
+    <p>Gracz: <strong>{{ player.username }}</strong></p>
+    <p>Wynik tej rundy: <strong>{{ game.score_delta }}</strong></p>
+    <p>Łączny wynik: <strong>{{ player.total_score }}</strong></p>
+    <p>Błędy: <strong>{{ game.mistakes }}/{{ game.max_mistakes }}</strong></p>
+
+    <div class="actions">
+        <form method="post" action="{% url 'new_round' %}">
+            {% csrf_token %}
+            <button type="submit" class="primary">Zagraj jeszcze raz</button>
+        </form>
+        <a class="secondary" href="{% url 'leaderboard' %}">Zobacz ranking</a>
+    </div>
+</section>
+{% endblock %}

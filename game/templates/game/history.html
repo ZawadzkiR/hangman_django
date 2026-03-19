@@ -1,0 +1,36 @@
+{% extends 'game/base.html' %}
+{% block title %}{{ tr.history }}{% endblock %}
+{% block content %}
+<section class="board-shell page-card">
+    <h1>{{ tr.history }}</h1>
+    {% if player %}
+        <p>{{ tr.player }}: <strong>{{ player.username }}</strong></p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{{ tr.table_date }}</th>
+                        <th>{{ tr.table_word }}</th>
+                        <th>{{ tr.table_result }}</th>
+                        <th>{{ tr.table_score }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in sessions %}
+                    <tr>
+                        <td>{{ item.created_at|date:'Y-m-d H:i' }}</td>
+                        <td>{{ item.word_text }}</td>
+                        <td>{{ item.result }}</td>
+                        <td>{{ item.score_delta }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4">{{ tr.history_empty }}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>{{ tr.history_empty }}</p>
+    {% endif %}
+</section>
+{% endblock %}
