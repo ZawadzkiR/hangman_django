@@ -421,6 +421,16 @@ def all_ready(room: MultiplayerRoom) -> bool:
     return bool(participants) and all(p.is_ready for p in participants)
 
 
+def can_start_room(room: MultiplayerRoom, participant) -> bool:
+    if participant.session_token != room.host_session:
+        return False
+    participants = list(room.participants.all())
+    if room.status != 'waiting' or len(participants) < 2:
+        return False
+    others = [p for p in participants if p.id != participant.id]
+    return bool(others) and all(p.is_ready for p in others)
+
+
 def waiting_summary(room: MultiplayerRoom):
     participants = list(room.participants.all())
     return {
@@ -435,18 +445,22 @@ def room_state(room: MultiplayerRoom, participant, ui_lang: str) -> Dict:
     finalize_room_if_needed(room)
     participant.refresh_from_db()
     room.refresh_from_db()
+    participants = list(room.participants.all())
     stats = player_round_stats(participant)
     waiting = waiting_summary(room)
-    ranking = sorted(room.participants.all(), key=lambda p: (-p.score, p.order_no))
+    ranking = sorted(participants, key=lambda p: (-p.score, p.order_no))
+    is_host = participant.session_token == room.host_session
     return {
         'room': {
             'code': room.code, 'status': room.status, 'round_number': room.round_number, 'turn_seconds': room.turn_seconds, 'seconds_left': room_seconds_left(room),
             'host_name': room.host_name, 'current_category': participant.current_category or room.current_category, 'max_rounds': room.max_rounds, 'target_score': room.target_score,
-            'winner_name': room.winner_name, 'difficulty_mode': room.difficulty_mode, 'category_mode': room.category_mode, 'mistake_mode': room.mistake_mode, 'max_mistakes': get_max_mistakes(room.mistake_mode), **waiting,
+            'winner_name': room.winner_name, 'difficulty_mode': room.difficulty_mode, 'category_mode': room.category_mode, 'mistake_mode': room.mistake_mode,
+            'max_mistakes': get_max_mistakes(room.mistake_mode), 'is_host': is_host, 'can_start': can_start_room(room, participant),
+            'can_next': is_host and room.status == 'round_over' and room.status != 'finished', 'revealed_word': participant.current_word_text, **waiting,
         },
         'you': {
             'nickname': participant.nickname, 'language': participant.language, 'score': participant.score, 'mistakes': participant.mistakes, 'status': participant.round_status,
-            'is_ready': participant.is_ready, 'stats': stats, 'current_hint': participant.current_hint,
+            'is_ready': participant.is_ready, 'stats': stats, 'current_hint': participant.current_hint, 'current_word': participant.current_word_text,
         },
         'players': [
             {'nickname': p.nickname, 'score': p.score, 'status': p.round_status, 'is_host': p.session_token == room.host_session, 'is_you': p.id == participant.id, 'is_ready': p.is_ready}

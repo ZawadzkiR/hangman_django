@@ -122,6 +122,8 @@
     const roomUsed = document.getElementById('room-used-letters');
     const roomRemaining = document.getElementById('room-remaining-value');
     const roomStatus = document.getElementById('room-status-text');
+    const roomRevealBanner = document.getElementById('room-reveal-banner');
+    const roomRevealWord = document.getElementById('room-reveal-word');
     const roomTimer = document.getElementById('room-timer-value');
     const roomRound = document.getElementById('room-round-value');
     const roomScore = document.getElementById('room-score-value');
@@ -130,6 +132,9 @@
     const roomLive = document.getElementById('room-live-message');
     const roomReadyCount = document.getElementById('room-ready-count');
     const roomPlayerCount = document.getElementById('room-player-count');
+    const roomPlayerCountHost = document.getElementById('room-player-count-host');
+    const roomAnswerStat = document.getElementById('room-answer-stat');
+    const roomAnswerValue = document.getElementById('room-answer-value');
     const roomMaxMistakes = document.getElementById('room-max-mistakes');
     const startBtn = document.getElementById('room-start-btn');
     const nextBtn = document.getElementById('room-next-btn');
@@ -139,20 +144,36 @@
     const modalTitle = document.getElementById('room-modal-title');
     const modalText = document.getElementById('room-modal-text');
     const finalTable = document.getElementById('room-final-table');
+    const modalWord = document.getElementById('room-modal-word');
+    const modalClose = document.getElementById('room-modal-close');
+    const roundSummary = document.getElementById('room-round-summary');
+    const summaryWord = document.getElementById('room-summary-word');
+    const summaryLeader = document.getElementById('room-summary-leader');
+    const summaryTitle = document.getElementById('room-summary-title');
     const statusLabels = {
       waiting: room.dataset.statusWaiting,
       playing: room.dataset.statusPlaying,
       round_over: room.dataset.statusRoundOver,
       finished: room.dataset.statusFinished,
     };
+    let roomStateVersion = 0;
+    let lastRoundPopupKey = null;
+    let forcedRoundEndKey = null;
+    let forcedRoundEndRound = null;
+    let dismissedRoundPopupKey = null;
+    const autoReloadStorageKey = `hangman-room-round-refresh:${window.location.pathname}`;
 
     function renderPlayers(players, labels) {
-      roomPlayers.innerHTML = players.map((p) => `
-        <div class="player-pill ${p.is_you ? 'you' : ''}">
-          <strong>${p.nickname}${p.is_host ? ' ⭐' : ''}</strong>
-          <span>${p.score}</span>
-          <em>${p.is_ready ? 'Ready' : '...'}</em>
-          <small>${labels[p.status] || p.status}</small>
+      roomPlayers.innerHTML = players.map((p, index) => `
+        <div class="player-pill compact ${p.is_you ? 'you' : ''}">
+          <div class="player-pill-main">
+            <strong>${index + 1}. ${p.nickname}${p.is_host ? ' ⭐' : ''}</strong>
+            <span class="player-pill-score">${p.score}</span>
+          </div>
+          <div class="player-pill-meta">
+            <em>${p.is_ready ? 'Ready' : '...'}</em>
+            <small>${labels[p.status] || p.status}</small>
+          </div>
         </div>`).join('');
     }
     function buildKeyboard(letters, used, disabled) {
@@ -170,16 +191,97 @@
       roomLive.className = `live-message ${data.hit ? 'hit' : 'miss'}`;
       renderState(data.state);
     }
-    function openModal(state) {
-      modal.classList.remove('hidden');
-      modalTitle.textContent = room.dataset.statusFinished;
-      modalText.textContent = state.room.winner_name ? `Winner: ${state.room.winner_name}` : '';
+    function renderRankingTable(state) {
       finalTable.innerHTML = state.final_ranking.map((p, i) => `<tr><td>${i + 1}</td><td>${p.nickname}</td><td>${p.score}</td></tr>`).join('');
     }
-    function closeModal() { modal.classList.add('hidden'); }
-    function renderState(data) {
+    function revealWord(state) {
+      return state?.room?.revealed_word || state?.you?.current_word || state?.room?.current_word_text || '—';
+    }
+    function openModal(state, finished = false) {
+      modal.classList.remove('hidden');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('room-modal-open');
+      const youStatus = state?.you?.status || '';
+      const leader = (state.final_ranking || [])[0];
+      if (finished) {
+        modalTitle.textContent = room.dataset.statusFinished;
+        modalText.textContent = state.room.winner_name ? `${room.dataset.winnerLabel}: ${state.room.winner_name}` : room.dataset.statusFinished;
+      } else {
+        if (youStatus === 'won') modalTitle.textContent = state.labels?.won || room.dataset.statusRoundOver;
+        else if (youStatus === 'lost') modalTitle.textContent = state.labels?.lost || room.dataset.statusRoundOver;
+        else if (youStatus === 'timeout') modalTitle.textContent = state.labels?.timeout || room.dataset.statusRoundOver;
+        else modalTitle.textContent = room.dataset.statusRoundOver;
+        modalText.textContent = leader ? `${room.dataset.finalTableLabel}: ${leader.nickname} (${leader.score})` : room.dataset.statusRoundOver;
+      }
+      if (modalWord) modalWord.textContent = revealWord(state);
+      renderRankingTable(state);
+      if (modalClose) modalClose.classList.toggle('hidden', finished);
+    }
+    function closeModal(force = false) {
+      if (!force && modal?.dataset?.lockOpen === '1') return;
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('room-modal-open');
+    }
+    function effectiveRoomStatus(data) {
+      const roomStatus = data?.room?.status || 'waiting';
+      if (roomStatus === 'finished' || roomStatus === 'round_over') return roomStatus;
+      const players = data?.players || [];
+      if (players.length && players.every((p) => ['won', 'lost', 'timeout'].includes(p.status))) {
+        return 'round_over';
+      }
+      if (['won', 'lost', 'timeout'].includes(data?.you?.status)) {
+        return 'round_over';
+      }
+      return roomStatus;
+    }
+    function allPlayersFinished(data) {
+      const players = data?.players || [];
+      return !!players.length && players.every((p) => ['won', 'lost', 'timeout'].includes(p.status));
+    }
+    function shouldShowRoundPopup(data, effectiveStatus) {
+      return effectiveStatus === 'finished' || effectiveStatus === 'round_over' || ['won', 'lost', 'timeout'].includes(data?.you?.status);
+    }
+    function shouldShowRoundWord(data) {
+      const roomStatus = data?.room?.status || 'waiting';
+      return roomStatus === 'finished' || roomStatus === 'round_over' || allPlayersFinished(data) || ['won', 'lost', 'timeout'].includes(data?.you?.status) || !!data?.room?.can_next;
+    }
+    function roundPopupKey(data, effectiveStatus) {
+      const ranking = (data.final_ranking || []).map((p) => `${p.nickname}:${p.score}:${p.status}`).join('|');
+      return `${data?.room?.round_number || 0}:${effectiveStatus}:${data?.you?.status || ''}:${revealWord(data)}:${ranking}`;
+    }
+    function detectRoundEndKey(data, effectiveStatus) {
+      if (effectiveStatus === 'finished' || effectiveStatus === 'round_over' || ['won', 'lost', 'timeout'].includes(data?.you?.status) || !!data?.room?.can_next) {
+        return roundPopupKey(data, effectiveStatus);
+      }
+      return null;
+    }
+    function maybeAutoReloadForRoundEnd(data, effectiveStatus) {
+      const key = detectRoundEndKey(data, effectiveStatus);
+      if (!key) {
+        if (effectiveStatus === 'playing' && data?.you?.status === 'playing') {
+          sessionStorage.removeItem(autoReloadStorageKey);
+        }
+        return false;
+      }
+      const lastReloadedKey = sessionStorage.getItem(autoReloadStorageKey);
+      if (lastReloadedKey === key) return false;
+      sessionStorage.setItem(autoReloadStorageKey, key);
+      setTimeout(() => {
+        window.location.replace(`${window.location.pathname}?r=${Date.now()}`);
+      }, 80);
+      return true;
+    }
+    function renderState(data, version = null) {
+      if (version !== null && version < roomStateVersion) return;
+      if (version !== null) roomStateVersion = version;
+      const effectiveStatus = effectiveRoomStatus(data);
+      if (maybeAutoReloadForRoundEnd(data, effectiveStatus)) return;
       roomWord.textContent = data.you.stats.masked_word;
       roomCategory.textContent = data.room.current_category || '—';
+      const showRevealBanner = shouldShowRoundWord(data);
+      if (roomRevealBanner) roomRevealBanner.classList.toggle('hidden', !showRevealBanner);
+      if (roomRevealWord && showRevealBanner) roomRevealWord.textContent = revealWord(data);
       if (roomMaxMistakes) roomMaxMistakes.textContent = data.room.max_mistakes;
       roomUsed.textContent = data.you.stats.guessed_letters.length ? data.you.stats.guessed_letters.map((x) => x.toUpperCase()).join(', ') : room.dataset.noneLabel;
       roomRemaining.textContent = data.you.stats.remaining;
@@ -189,29 +291,76 @@
       roomScore.textContent = data.you.score;
       roomReadyCount.textContent = `${data.room.ready_count}/${data.room.player_count}`;
       roomPlayerCount.textContent = `${data.room.player_count}`;
+      if (roomPlayerCountHost) roomPlayerCountHost.textContent = `${data.room.player_count}`;
+      const revealInline = ['won', 'lost', 'timeout'].includes(data.you.status) || ['round_over', 'finished'].includes(effectiveStatus) || !!data.room.can_next;
+      if (roomAnswerStat) roomAnswerStat.classList.toggle('hidden', !revealInline);
+      if (roomAnswerValue && revealInline) roomAnswerValue.textContent = revealWord(data);
       updateHangman('.room-part', data.you.mistakes, data.room.max_mistakes);
-      buildKeyboard(data.you.stats.keyboard, data.you.stats.guessed_letters, data.room.status !== 'playing' || data.you.status !== 'playing');
+      buildKeyboard(data.you.stats.keyboard, data.you.stats.guessed_letters, effectiveStatus !== 'playing' || data.you.status !== 'playing');
       renderPlayers(data.players, data.labels);
+      if (roundSummary) {
+        const showRoundSummary = showRevealBanner;
+        roundSummary.classList.toggle('hidden', !showRoundSummary);
+        if (showRoundSummary) {
+          if (summaryTitle) summaryTitle.textContent = effectiveStatus === 'finished' ? room.dataset.statusFinished : room.dataset.statusRoundOver;
+          if (summaryWord) summaryWord.textContent = revealWord(data);
+          if (summaryLeader) {
+            const leader = (data.final_ranking || [])[0];
+            summaryLeader.textContent = leader ? `${leader.nickname} (${leader.score})` : '—';
+          }
+        }
+      }
       if (readyBtn) {
         readyBtn.textContent = data.you.is_ready ? room.dataset.readyDone : room.dataset.readyLabel;
         readyBtn.classList.toggle('strong', data.you.is_ready);
-        readyBtn.disabled = data.room.status === 'playing' || data.room.status === 'finished';
+        readyBtn.disabled = effectiveStatus === 'playing' || effectiveStatus === 'finished';
       }
-      if (startBtn) startBtn.classList.toggle('hidden', !(data.room.status === 'waiting' && data.room.player_count >= 2));
-      if (nextBtn) nextBtn.classList.toggle('hidden', data.room.status !== 'round_over');
-      if (data.room.status === 'finished') openModal(data); else closeModal();
+      if (startBtn) startBtn.classList.toggle('hidden', !data.room.can_start && effectiveStatus !== 'round_over');
+      if (nextBtn) nextBtn.classList.toggle('hidden', !(data.room.can_next || (data.room.is_host && effectiveStatus === 'round_over')));
+
+      const detectedRoundEndKey = detectRoundEndKey(data, effectiveStatus);
+      if (forcedRoundEndRound !== null && Number(data.room.round_number) !== Number(forcedRoundEndRound) && effectiveStatus === 'playing') {
+        forcedRoundEndKey = null;
+        forcedRoundEndRound = null;
+        dismissedRoundPopupKey = null;
+      }
+      if (detectedRoundEndKey) {
+        forcedRoundEndKey = detectedRoundEndKey;
+        forcedRoundEndRound = Number(data.room.round_number || 0);
+      }
+
+      const popupKey = forcedRoundEndKey || roundPopupKey(data, effectiveStatus);
+      const showPopup = (!!forcedRoundEndKey || shouldShowRoundPopup(data, effectiveStatus)) && popupKey !== dismissedRoundPopupKey;
+      modal.dataset.lockOpen = showPopup ? '1' : '0';
+      if (showPopup) {
+        if (popupKey !== lastRoundPopupKey || modal.classList.contains('hidden')) {
+          openModal(data, effectiveStatus === 'finished');
+          lastRoundPopupKey = popupKey;
+        } else {
+          openModal(data, effectiveStatus === 'finished');
+        }
+      } else {
+        if (popupKey !== dismissedRoundPopupKey) lastRoundPopupKey = null;
+        closeModal(true);
+      }
     }
     async function pollState() {
+      const version = roomStateVersion + 1;
       const sep = room.dataset.stateUrl.includes('?') ? '&' : '?';
       const url = `${room.dataset.stateUrl}${sep}_=${Date.now()}`;
       const response = await fetch(url, { cache: 'no-store', credentials: 'same-origin' });
       const data = await response.json();
-      if (data.ok) renderState(data.state);
+      if (data.ok) renderState(data.state, version);
     }
-    readyBtn?.addEventListener('click', async () => { const data = await post(room.dataset.readyUrl, {}, csrf); if (data.ok) renderState(data.state); });
-    startBtn?.addEventListener('click', async () => { const data = await post(room.dataset.startUrl, {}, csrf); if (data.ok) renderState(data.state); else if (data.message) roomLive.textContent = data.message; });
-    nextBtn?.addEventListener('click', async () => { const data = await post(room.dataset.nextRoundUrl, {}, csrf); if (data.ok) renderState(data.state); });
+    readyBtn?.addEventListener('click', async () => { roomStateVersion += 1; const data = await post(room.dataset.readyUrl, {}, csrf); if (data.ok) renderState(data.state, roomStateVersion); });
+    startBtn?.addEventListener('click', async () => { roomStateVersion += 1; const data = await post(room.dataset.startUrl, {}, csrf); if (data.ok) renderState(data.state, roomStateVersion); else if (data.message) roomLive.textContent = data.message; });
+    nextBtn?.addEventListener('click', async () => { roomStateVersion += 1; const data = await post(room.dataset.nextRoundUrl, {}, csrf); if (data.ok) renderState(data.state, roomStateVersion); });
     leaveBtn?.addEventListener('click', async () => { const data = await post(room.dataset.leaveUrl, {}, csrf); if (data.ok && data.redirect) window.location.href = data.redirect; });
+    modalClose?.addEventListener('click', () => {
+      dismissedRoundPopupKey = forcedRoundEndKey || lastRoundPopupKey;
+      modal.dataset.lockOpen = '0';
+      closeModal(true);
+    });
     setInterval(pollState, 1000);
     pollState();
   }

@@ -10,6 +10,7 @@ from .models import GameSession, MultiplayerParticipant, MultiplayerRoom, Player
 from .services import (
     UI_LANGUAGE_CHOICES,
     all_ready,
+    can_start_room,
     calculate_word_score,
     choose_word,
     current_stats,
@@ -290,8 +291,11 @@ def api_room_state(request, code):
 def api_room_ready(request, code):
     room = get_object_or_404(MultiplayerRoom, code=code.upper())
     participant = _get_participant(request, room)
+    if room.status in {'playing', 'finished'}:
+        return JsonResponse({'ok': True, 'state': room_state(room, participant, resolve_ui_language(request))})
     participant.is_ready = not participant.is_ready
-    participant.save(update_fields=['is_ready'])
+    participant.round_status = 'idle'
+    participant.save(update_fields=['is_ready', 'round_status'])
     return JsonResponse({'ok': True, 'state': room_state(room, participant, resolve_ui_language(request))})
 
 
@@ -299,14 +303,30 @@ def api_room_ready(request, code):
 def api_room_start(request, code):
     room = get_object_or_404(MultiplayerRoom, code=code.upper())
     participant = _get_participant(request, room)
+    ui_lang = resolve_ui_language(request)
     if participant.session_token != room.host_session:
         return JsonResponse({'ok': False}, status=403)
-    if room.participants.count() < 2:
-        return JsonResponse({'ok': False, 'message': t(resolve_ui_language(request))['need_players']}, status=400)
-    if not all_ready(room):
-        return JsonResponse({'ok': False, 'message': t(resolve_ui_language(request))['need_ready']}, status=400)
+    participants = list(room.participants.all())
+    if len(participants) < 2:
+        return JsonResponse({'ok': False, 'message': t(ui_lang)['need_players']}, status=400)
+    if room.status != 'waiting':
+        return JsonResponse({'ok': True, 'state': room_state(room, participant, ui_lang)})
+    if not participant.is_ready:
+        participant.is_ready = True
+        participant.round_status = 'idle'
+        participant.save(update_fields=['is_ready', 'round_status'])
+    others = [p for p in participants if p.id != participant.id]
+    if not others or not all(p.is_ready for p in others):
+        return JsonResponse({'ok': False, 'message': t(ui_lang)['need_ready']}, status=400)
+    for p in room.participants.all():
+        if not p.is_ready or p.round_status != 'idle':
+            p.is_ready = True
+            p.round_status = 'idle'
+            p.save(update_fields=['is_ready', 'round_status'])
+    if not can_start_room(room, participant):
+        return JsonResponse({'ok': False, 'message': t(ui_lang)['need_ready']}, status=400)
     start_room_round(room)
-    return JsonResponse({'ok': True, 'state': room_state(room, participant, resolve_ui_language(request))})
+    return JsonResponse({'ok': True, 'state': room_state(room, participant, ui_lang)})
 
 
 @require_POST
@@ -403,7 +423,7 @@ def manifest(request):
 @require_GET
 def service_worker(request):
     js = f"""
-const CACHE_NAME = 'hangman-shell-v2';
+const CACHE_NAME = 'hangman-shell-v3';
 const URLS = [
   '/',
   '/leaderboard/',
@@ -426,13 +446,20 @@ self.addEventListener('activate', (event) => {{
 
 self.addEventListener('fetch', (event) => {{
   if (event.request.method !== 'GET') return;
+  const url = new URL(event.request.url);
+  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/room/')) {{
+    event.respondWith(fetch(event.request, {{ cache: 'no-store' }}));
+    return;
+  }}
   if (event.request.mode === 'navigate') {{
     event.respondWith(fetch(event.request).catch(() => caches.match(event.request)).then((resp) => resp || caches.match('/offline/') || caches.match('/')));
     return;
   }}
   event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {{
-    const copy = response.clone();
-    caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+    if (url.origin === location.origin && response.ok) {{
+      const copy = response.clone();
+      caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+    }}
     return response;
   }}).catch(() => caches.match('{static('game/icons/icon-192.png')}'))));
 }});

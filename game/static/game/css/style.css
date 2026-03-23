@@ -788,3 +788,478 @@ html, body { overflow-x: hidden; }
   .key-btn { min-height: 36px; font-size: 1.1rem; }
   .players-list { max-height: 96px; }
 }
+
+
+/* stable room layout overrides */
+.room-page .mobile-frame {
+  max-width: 1400px;
+  min-height: 100dvh;
+}
+.room-page .game-screen {
+  min-height: calc(100dvh - 96px);
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr;
+  gap: 10px;
+  overflow: hidden;
+}
+.room-page .word-zone {
+  padding: 4px 0 0;
+}
+.room-page .word-line {
+  min-height: 40px;
+  font-size: clamp(1.25rem, 3vw, 2.2rem);
+  letter-spacing: .14em;
+}
+.room-page .status-line {
+  margin-top: 4px;
+}
+.room-page .middle-zone {
+  flex: none;
+  min-height: 230px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(220px, .9fr);
+  align-items: stretch;
+}
+.room-page .hangman-zone,
+.room-page .info-zone {
+  min-height: 230px;
+  overflow: hidden;
+}
+.room-page .hangman-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.room-page .hangman-svg {
+  width: min(100%, 220px);
+  max-height: 100%;
+}
+.room-page .info-zone.compact-info {
+  align-content: center;
+  justify-items: start;
+  gap: 10px;
+}
+.room-page .keyboard {
+  margin-top: 0;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  gap: 6px;
+}
+.room-page .key-btn {
+  min-height: 42px;
+  font-size: 1.2rem;
+}
+.room-page .room-layout {
+  min-height: 0;
+  margin-top: 0;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr);
+}
+.room-page .room-panel {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.room-page .players-list {
+  flex: 1;
+  min-height: 120px;
+  max-height: none;
+  overflow: auto;
+}
+.room-page #room-players-list:empty::before {
+  content: '—';
+  opacity: .7;
+}
+.room-page .modal-buttons.stacked {
+  margin-top: auto;
+}
+
+@media (max-width: 900px) {
+  .room-page .game-screen {
+    min-height: calc(100dvh - 88px);
+    grid-template-rows: auto auto auto auto auto;
+    overflow: auto;
+  }
+  .room-page .middle-zone,
+  .room-page .room-layout {
+    grid-template-columns: 1fr;
+  }
+  .room-page .middle-zone {
+    min-height: 0;
+  }
+  .room-page .hangman-zone,
+  .room-page .info-zone {
+    min-height: 180px;
+  }
+  .room-page .hangman-svg {
+    width: min(100%, 190px);
+  }
+  .room-page .players-list {
+    min-height: 100px;
+    max-height: 180px;
+  }
+}
+
+@media (max-width: 560px) {
+  body.room-page {
+    overflow-y: auto;
+  }
+  .room-page .mobile-frame {
+    padding: 0;
+  }
+  .room-page .topbar {
+    padding: 6px 8px 0;
+  }
+  .room-page .game-screen {
+    min-height: calc(100dvh - 56px);
+    padding: 8px 6px 10px;
+    gap: 8px;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+  .room-page .hud-row,
+  .room-page .hud-row-4 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+  }
+  .room-page .score-box {
+    min-height: 46px;
+    padding: 4px 5px;
+    border-radius: 12px;
+  }
+  .room-page .score-box span {
+    font-size: .62rem;
+  }
+  .room-page .score-box strong {
+    font-size: .95rem;
+  }
+  .room-page .filter-chip-row {
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .room-page .filter-chip {
+    font-size: .68rem;
+    padding: 4px 6px;
+  }
+  .room-page .category-line,
+  .room-page .status-line {
+    font-size: .88rem;
+  }
+  .room-page .word-line {
+    min-height: 34px;
+    font-size: 1.15rem;
+    letter-spacing: .1em;
+  }
+  .room-page .hangman-zone,
+  .room-page .info-zone {
+    min-height: 160px;
+    padding: 8px;
+  }
+  .room-page .hangman-svg {
+    width: min(100%, 150px);
+  }
+  .room-page .info-zone.compact-info {
+    gap: 6px;
+    font-size: .88rem;
+  }
+  .room-page .keyboard {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .room-page .key-btn {
+    min-height: 34px;
+    font-size: 1rem;
+    border-radius: 10px;
+  }
+  .room-page .room-layout {
+    gap: 8px;
+  }
+  .room-page .room-panel {
+    padding: 8px;
+  }
+  .room-page .room-panel h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+  .room-page .room-panel p {
+    margin: 3px 0;
+    font-size: .88rem;
+  }
+  .room-page .players-list {
+    max-height: 145px;
+  }
+  .room-page .player-pill {
+    padding: 7px 8px;
+    font-size: .82rem;
+  }
+  .room-page .player-pill em,
+  .room-page .player-pill small {
+    font-size: .74rem;
+  }
+  .room-page .tray-btn {
+    min-height: 42px;
+    font-size: .95rem;
+  }
+}
+
+
+/* room page compact layout refinements */
+.room-page .room-layout{grid-template-columns:minmax(0,1.2fr) minmax(280px,.9fr);align-items:start;gap:14px;}
+.room-page .room-panel-players{min-height:0;}
+.room-page .players-list.compact{display:flex;flex-direction:column;gap:8px;max-height:240px;overflow:auto;padding-right:4px;}
+.room-page .player-pill.compact{min-height:auto;padding:10px 12px;border-radius:14px;display:flex;flex-direction:column;gap:4px;}
+.room-page .player-pill.compact .player-pill-main{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.room-page .player-pill.compact .player-pill-score{font-weight:800;font-size:1rem;}
+.room-page .player-pill.compact .player-pill-meta{display:flex;gap:10px;align-items:center;justify-content:space-between;font-size:.8rem;opacity:.95;}
+.room-page .player-pill.compact em,.room-page .player-pill.compact small{margin:0;}
+.room-page .middle-zone{position:relative;}
+.room-page .round-summary-inline{position:absolute;top:-6px;left:0;right:0;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;z-index:3;}
+.room-page .round-summary-chip{background:rgba(20,74,58,.72);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:4px 10px;font-size:.76rem;backdrop-filter:blur(4px);}
+.room-page .info-zone.compact-info p{font-size:.88rem;margin:0 0 8px;}
+.room-page .room-panel p{font-size:.95rem;margin:0 0 12px;}
+.room-page #room-keyboard{margin-top:8px;}
+.room-page .modal-word{margin:0 0 12px;font-size:1rem;}
+@media (max-width: 900px){
+  .room-page .room-layout{grid-template-columns:1fr;}
+  .room-page .players-list.compact{max-height:170px;}
+  .room-page .room-panel p{font-size:.88rem;margin-bottom:10px;}
+}
+@media (max-width: 640px){
+  .room-page .round-summary-inline{position:static;margin-bottom:8px;}
+  .room-page .players-list.compact{max-height:132px;}
+  .room-page .player-pill.compact{padding:8px 10px;}
+  .room-page .player-pill.compact .player-pill-meta{font-size:.72rem;}
+  .room-page .info-zone.compact-info p{font-size:.8rem;margin:0 0 6px;}
+}
+
+
+/* room page final compact fix */
+.room-page .room-mini-stats{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;align-items:center;margin-top:2px;font-size:.78rem;opacity:.96}
+.room-page .mini-stat{display:inline-flex;gap:5px;align-items:center;padding:4px 8px;border-radius:999px;background:rgba(0,0,0,.14);border:1px solid rgba(255,255,255,.08)}
+.room-page .mini-stat strong{font-weight:800}
+.room-page .room-layout{grid-template-columns:minmax(0,1fr) minmax(250px,.75fr)}
+.room-page .room-panel{padding:10px 12px}
+.room-page .room-panel-host{justify-content:flex-start}
+.room-page .room-panel-host .modal-buttons.stacked{margin-top:8px}
+.room-page .room-control-buttons{display:grid;gap:10px}
+.room-page .modal-buttons.stacked{margin-top:8px}
+.room-page .players-list,
+.room-page .players-list.compact{flex:0 0 auto;max-height:170px;min-height:0}
+.room-page .player-pill.compact{padding:8px 10px;gap:3px}
+.room-page .player-pill.compact .player-pill-meta{font-size:.74rem}
+.room-page .room-panel h3{margin-bottom:8px}
+.room-page .room-panel-host p{display:none}
+.room-page #room-modal .modal-card{max-width:min(560px,92vw)}
+.room-page #room-modal .modal-word{font-size:1.15rem;text-align:center}
+.room-page #room-modal #room-modal-text{text-align:center;margin-bottom:8px}
+@media (max-width:900px){
+  .room-page .room-layout{grid-template-columns:1fr 1fr;gap:10px}
+}
+@media (max-width:640px){
+  .room-page .room-mini-stats{font-size:.7rem;gap:4px 6px}
+  .room-page .mini-stat{padding:3px 6px}
+  .room-page .room-layout{grid-template-columns:1fr;gap:8px}
+  .room-page .players-list,.room-page .players-list.compact{max-height:120px}
+  .room-page .room-panel{padding:8px}
+}
+
+
+/* room popup and compact layout fix */
+body.room-modal-open { overflow: hidden; }
+.room-page .category-line-room { margin-bottom: 10px; font-size: clamp(1rem, 2.2vw, 1.25rem); }
+.room-page .category-line-room strong { font-size: clamp(1.2rem, 3vw, 1.7rem); font-weight: 900; }
+.room-page .word-zone { padding-top: 10px; }
+.room-page .room-layout { grid-template-columns: minmax(0,1fr) minmax(230px,.62fr) !important; gap: 8px; align-items: start; }
+.room-page .room-panel { padding: 10px 12px; }
+.room-page .room-panel-host { min-height: 170px; }
+.room-page .room-panel-players { min-height: 170px; }
+.room-page .players-list, .room-page .players-list.compact { max-height: 156px !important; min-height: 0 !important; }
+.room-page .player-pill.compact { padding: 7px 9px; border-radius: 14px; }
+.room-page .player-pill.compact .player-pill-main { font-size: .92rem; }
+.room-page .player-pill.compact .player-pill-meta { font-size: .7rem; }
+.room-page .room-panel-host h3, .room-page .room-panel-players h3 { margin-bottom: 8px; }
+.room-page .room-control-buttons { margin-top: 2px; }
+.room-page #room-leave-btn { margin-top: 10px; }
+.room-page #room-modal.game-modal { z-index: 99999; background: rgba(0,0,0,.72); backdrop-filter: blur(4px); }
+.room-page #room-modal .modal-card { width: min(640px, 94vw); max-height: min(86dvh, 760px); overflow: auto; border-width: 6px; }
+.room-page #room-modal .modal-card h2 { text-align: center; margin-bottom: 8px; }
+.room-page #room-modal .modal-word { margin: 10px 0 14px; text-align: center; font-size: 1.2rem; }
+.room-page #room-modal #room-modal-word { display: inline-block; margin-left: 6px; font-size: clamp(1.3rem, 4vw, 2rem); letter-spacing: .12em; }
+.room-page #room-modal .table-wrap { margin-top: 8px; }
+.room-page .room-mini-stats { justify-content: flex-start; }
+@media (max-width: 900px) {
+  .room-page .room-layout { grid-template-columns: 1fr !important; }
+  .room-page .players-list, .room-page .players-list.compact { max-height: 132px !important; }
+}
+@media (max-width: 560px) {
+  .room-page .category-line-room { font-size: .95rem; }
+  .room-page .category-line-room strong { font-size: 1.25rem; }
+  .room-page #room-modal .modal-card { width: 96vw; max-height: 88dvh; padding: 14px; }
+  .room-page #room-modal #room-modal-word { font-size: 1.35rem; letter-spacing: .08em; }
+}
+
+
+/* final mobile room fixes */
+.room-page .category-line-room{font-size:clamp(1rem,2.5vw,1.2rem);margin-top:6px;margin-bottom:8px;}
+.room-page .category-line-room strong{font-size:clamp(1.15rem,3.5vw,1.55rem);line-height:1.2;}
+.room-page .room-panel-players{min-height:220px;}
+.room-page .players-list.compact{max-height:220px;overflow:auto;}
+.room-page .player-pill.compact{padding:8px 10px;min-height:auto;}
+.room-page #room-modal:not(.hidden){display:flex !important;align-items:center;justify-content:center;}
+.room-page #room-modal .modal-card{box-shadow:0 20px 80px rgba(0,0,0,.45);}
+
+
+/* room round-end banner + larger category */
+.room-page .category-line-room{font-size:clamp(1.15rem,3vw,1.5rem)!important;margin-top:8px;margin-bottom:10px;text-align:center;}
+.room-page .category-line-room strong{font-size:clamp(1.45rem,4.6vw,2.15rem)!important;line-height:1.15;letter-spacing:.02em;}
+.room-page .round-summary-inline{position:static!important;display:block!important;margin:0 0 10px;}
+.room-page .round-summary-inline.hidden{display:none!important;}
+.room-page .round-summary-banner{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 14px;border-radius:18px;background:rgba(11,48,37,.72);border:1px solid rgba(255,255,255,.18);box-shadow:0 8px 24px rgba(0,0,0,.16);text-align:center;}
+.room-page .round-summary-title{font-size:clamp(1rem,2.8vw,1.25rem);font-weight:900;}
+.room-page .round-summary-wordline{font-size:clamp(1rem,3vw,1.2rem);}
+.room-page .round-summary-wordline strong{display:inline-block;margin-left:6px;font-size:clamp(1.35rem,4.2vw,1.95rem);letter-spacing:.12em;}
+.room-page .round-summary-leaderline{font-size:.9rem;opacity:.96;}
+@media (max-width: 720px){
+  .room-page .category-line-room{font-size:1.05rem!important;}
+  .room-page .category-line-room strong{font-size:1.6rem!important;}
+  .room-page .round-summary-banner{padding:9px 10px;gap:4px;}
+  .room-page .round-summary-title{font-size:1rem;}
+  .room-page .round-summary-wordline strong{font-size:1.45rem;letter-spacing:.08em;}
+  .room-page .round-summary-leaderline{font-size:.82rem;}
+}
+
+/* final obvious reveal banner + larger room category */
+.room-page .category-line-room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: clamp(1.2rem, 3vw, 1.7rem) !important;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+.room-page .category-line-room span {
+  font-weight: 700;
+  opacity: .95;
+}
+.room-page .category-line-room strong {
+  display: inline-block;
+  font-size: clamp(1.8rem, 5vw, 2.8rem) !important;
+  line-height: 1.08;
+  font-weight: 900;
+  letter-spacing: .02em;
+  text-shadow: 0 2px 0 rgba(0,0,0,.18);
+}
+.room-page .room-reveal-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 auto 10px;
+  padding: 10px 14px;
+  width: min(100%, 760px);
+  border-radius: 18px;
+  background: rgba(17, 59, 46, .9);
+  border: 2px solid rgba(255,255,255,.22);
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+  text-align: center;
+}
+.room-page .room-reveal-banner .room-reveal-label {
+  font-size: .95rem;
+  opacity: .88;
+  font-weight: 700;
+}
+.room-page .room-reveal-banner strong {
+  font-size: clamp(1.4rem, 4.2vw, 2.3rem);
+  line-height: 1.15;
+  font-weight: 900;
+  color: #fff3c9;
+  word-break: break-word;
+}
+@media (max-width: 720px) {
+  .room-page .category-line-room {
+    font-size: 1.05rem !important;
+  }
+  .room-page .category-line-room strong {
+    font-size: 1.75rem !important;
+  }
+  .room-page .room-reveal-banner {
+    padding: 9px 10px;
+    margin-bottom: 8px;
+  }
+  .room-page .room-reveal-banner strong {
+    font-size: 1.35rem;
+  }
+}
+
+
+/* Multiplayer round popup aligned with solo modal */
+.room-page .category-line-room { margin-top: 10px; }
+.room-page .room-category-label { display:block; font-size: 1rem; opacity: .9; margin-bottom: 4px; }
+.room-page .room-category-value { display:inline-block; font-size: clamp(1.45rem, 3.8vw, 2.35rem) !important; line-height: 1.1; font-weight: 900; letter-spacing: .01em; }
+.room-page #room-modal.room-round-modal { position: fixed; inset: 0; z-index: 999999; background: rgba(0,0,0,.72); backdrop-filter: blur(4px); padding: 16px; }
+.room-page #room-modal.room-round-modal:not(.hidden) { display:flex !important; align-items:center; justify-content:center; }
+.room-page #room-modal .room-round-modal-card { width: min(540px, 94vw); max-height: min(88dvh, 760px); overflow: auto; }
+.room-page #room-modal .room-round-modal-card h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); text-align: left; }
+.room-page #room-modal #room-modal-text { font-size: 1.05rem; margin-bottom: 12px; }
+.room-page #room-modal .modal-word { background: rgba(0,0,0,.12); border-radius: 16px; padding: 10px 14px; text-align: left; }
+.room-page #room-modal #room-modal-word { font-size: clamp(1.35rem, 4.2vw, 2.15rem); letter-spacing: .02em; word-break: break-word; }
+.room-page #room-modal .table-wrap { background: rgba(0,0,0,.10); border-radius: 16px; padding: 8px; }
+.room-page #room-modal .modal-buttons.stacked { margin-top: 14px; }
+
+
+/* multiplayer room final answer + larger category */
+.category-line-room {
+  margin-top: 0.35rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.category-line-room .room-category-label {
+  display: block;
+  font-size: 1rem;
+  opacity: 0.92;
+}
+.category-line-room .room-category-value {
+  display: inline-block;
+  font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+.room-mini-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.9rem;
+  align-items: center;
+}
+.room-mini-stats .mini-stat-answer {
+  flex: 1 1 100%;
+  font-size: 1rem;
+  padding-top: 0.15rem;
+}
+.room-mini-stats .mini-stat-answer strong {
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+@media (max-width: 900px) {
+  .category-line-room .room-category-value {
+    font-size: clamp(1.55rem, 6vw, 2.1rem);
+  }
+  .room-mini-stats .mini-stat-answer {
+    font-size: 0.95rem;
+  }
+  .room-mini-stats .mini-stat-answer strong {
+    font-size: 1.1rem;
+  }
+}
+
+
+.room-page .category-line-room .room-category-label{font-size:1.1rem;font-weight:700;}
+.room-page .category-line-room .room-category-value{font-size:clamp(2.3rem,5vw,3.5rem)!important;line-height:1.02;font-weight:900;letter-spacing:.02em;}
+.room-page .room-mini-stats .mini-stat-answer{font-size:1.05rem;background:rgba(0,0,0,.10);padding:.35rem .55rem;border-radius:12px;}
+.room-page .room-mini-stats .mini-stat-answer strong{font-size:1.35rem;display:inline-block;margin-left:.25rem;}
+@media (max-width:900px){.room-page .category-line-room .room-category-value{font-size:clamp(1.95rem,8vw,2.7rem)!important;}.room-page .room-mini-stats .mini-stat-answer strong{font-size:1.15rem;}}
+
+/* category bigger + round modal dismiss stability */
+.room-page .category-line-room .room-category-value{font-size:clamp(2.8rem,6vw,4.2rem)!important;line-height:1.02;font-weight:900;letter-spacing:.02em;}
+@media (max-width:900px){.room-page .category-line-room .room-category-value{font-size:clamp(2.25rem,9vw,3.3rem)!important;}}

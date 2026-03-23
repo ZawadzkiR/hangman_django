@@ -20,6 +20,9 @@
   data-status-finished="{{ tr.match_finished }}"
   data-ready-label="{{ tr.ready_up }}"
   data-ready-done="{{ tr.ready_up }} ✓"
+  data-final-word-label="{{ tr.final_word }}"
+  data-final-table-label="{{ tr.final_table }}"
+  data-winner-label="{{ tr.match_winner }}"
 >
   <div class="hud-row hud-row-4">
     <div class="score-box"><span>{{ tr.room_code }}</span><strong id="room-code-value">{{ room.code }}</strong></div>
@@ -30,12 +33,23 @@
 
   <div class="word-zone">
     <div class="filter-chip-row"><span class="filter-chip">{{ tr.difficulty }}: {{ room.difficulty_mode }}</span><span class="filter-chip">{{ tr.category }}: {{ room.category_mode }}</span><span class="filter-chip">{{ tr.mistake_mode }}: <span id="room-max-mistakes">{{ state.room.max_mistakes }}</span></span><span class="filter-chip">{{ tr.room_players }}: <span id="room-player-count">{{ state.room.player_count }}</span></span></div>
-    <div class="category-line"><span>{{ tr.category }}:</span> <strong id="room-category-text">{{ state.room.current_category }}</strong></div>
+    <div class="category-line category-line-room"><span class="room-category-label">{{ tr.category }}:</span> <strong id="room-category-text" class="room-category-value">{{ state.room.current_category }}</strong></div>
+    <div id="room-reveal-banner" class="room-reveal-banner{% if state.room.status != 'round_over' and state.room.status != 'finished' and state.you.status != 'won' and state.you.status != 'lost' and state.you.status != 'timeout' %} hidden{% endif %}">
+      <span class="room-reveal-label">{{ tr.final_word }}:</span>
+      <strong id="room-reveal-word">{{ state.you.current_word|default:state.room.revealed_word|default:'—' }}</strong>
+    </div>
     <div id="room-word-line" class="word-line">{{ state.you.stats.masked_word }}</div>
     <div class="status-line"><span>{{ tr.your_status }}:</span> <strong id="room-status-text">{{ state.you.status }}</strong></div>
   </div>
 
   <div class="middle-zone">
+    <div class="round-summary-inline hidden" id="room-round-summary">
+      <div class="round-summary-banner">
+        <div class="round-summary-title" id="room-summary-title">{{ tr.status_round_over }}</div>
+        <div class="round-summary-wordline"><span>{{ tr.final_word }}:</span> <strong id="room-summary-word">—</strong></div>
+        <div class="round-summary-leaderline"><span>{{ tr.final_table }}:</span> <strong id="room-summary-leader">—</strong></div>
+      </div>
+    </div>
     <div class="hangman-zone">
       <svg class="hangman-svg" viewBox="0 0 260 280" aria-hidden="true">
                 <line class="gallows" x1="24" y1="252" x2="154" y2="252"></line>
@@ -63,20 +77,24 @@
     </div>
   </div>
 
+  <div class="room-mini-stats" id="room-mini-stats">
+    <span class="mini-stat"><span>{{ tr.share_label }}:</span> <strong id="room-share-code">{{ room.code }}</strong></span>
+    <span class="mini-stat"><span>{{ tr.max_rounds }}:</span> <strong id="room-max-rounds">{{ room.max_rounds }}</strong></span>
+    <span class="mini-stat"><span>{{ tr.target_score }}:</span> <strong id="room-target-score-mini">{{ room.target_score }}</strong></span>
+    <span class="mini-stat"><span>{{ tr.room_players }}:</span> <strong id="room-player-count-host">{{ state.room.player_count }}</strong></span>
+    <span id="room-answer-stat" class="mini-stat mini-stat-answer{% if state.room.status != 'round_over' and state.room.status != 'finished' and state.you.status != 'won' and state.you.status != 'lost' and state.you.status != 'timeout' %} hidden{% endif %}"><span>{{ tr.final_word }}:</span> <strong id="room-answer-value">{{ state.you.current_word|default:state.room.revealed_word|default:'—' }}</strong></span>
+  </div>
+
   <div class="keyboard" id="room-keyboard"></div>
 
   <div class="room-layout">
-    <section class="room-panel">
+    <section class="room-panel room-panel-players">
       <h3>{{ tr.player_list }}</h3>
-      <div id="room-players-list" class="players-list"></div>
+      <div id="room-players-list" class="players-list compact"></div>
     </section>
-    <section class="room-panel">
+    <section class="room-panel room-panel-host">
       <h3>{{ tr.host_controls }}</h3>
-      <p>{{ tr.share_label }}: <strong>{{ room.code }}</strong></p>
-      <p>{{ tr.max_rounds }}: <strong>{{ room.max_rounds }}</strong></p>
-      <p>{{ tr.target_score }}: <strong>{{ room.target_score }}</strong></p>
-      <p>{{ tr.room_players }}: <strong>{{ state.room.player_count }}</strong></p>
-      <div class="modal-buttons stacked">
+      <div class="modal-buttons stacked room-control-buttons">
         <button id="room-ready-btn" type="button" class="tray-btn">{{ tr.ready_up }}</button>
         {% if is_host %}
         <button id="room-start-btn" type="button" class="tray-btn strong">{{ tr.start_match }}</button>
@@ -88,10 +106,11 @@
   </div>
 </section>
 
-<div id="room-modal" class="game-modal hidden" aria-hidden="true">
-  <div class="modal-card">
+<div id="room-modal" class="game-modal hidden room-round-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-card room-round-modal-card">
     <h2 id="room-modal-title">{{ tr.match_finished }}</h2>
     <p id="room-modal-text"></p>
+    <p class="modal-word"><span>{{ tr.final_word }}:</span> <strong id="room-modal-word"></strong></p>
     <div class="table-wrap">
       <table>
         <thead><tr><th>#</th><th>{{ tr.table_player }}</th><th>{{ tr.table_score }}</th></tr></thead>
@@ -99,6 +118,7 @@
       </table>
     </div>
     <div class="modal-buttons stacked">
+      <button id="room-modal-close" type="button" class="tray-btn hidden">OK</button>
       <a href="/" class="tray-btn strong">{{ tr.new_game }}</a>
     </div>
   </div>
