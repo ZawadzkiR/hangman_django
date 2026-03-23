@@ -1263,3 +1263,37 @@ body.room-modal-open { overflow: hidden; }
 /* category bigger + round modal dismiss stability */
 .room-page .category-line-room .room-category-value{font-size:clamp(2.8rem,6vw,4.2rem)!important;line-height:1.02;font-weight:900;letter-spacing:.02em;}
 @media (max-width:900px){.room-page .category-line-room .room-category-value{font-size:clamp(2.25rem,9vw,3.3rem)!important;}}
+
+
+/* Final room-page fixes: hosted multiplayer + mobile scrolling */
+html, body.room-page {
+  height: auto !important;
+  min-height: 100dvh;
+}
+body.room-page {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch;
+}
+.room-page .mobile-frame,
+.room-page .board-shell,
+.room-page .game-screen {
+  height: auto !important;
+  min-height: unset !important;
+  overflow: visible !important;
+}
+.room-page .game-screen {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px) !important;
+}
+@media (max-width: 900px) {
+  body.room-page {
+    overflow-y: auto !important;
+  }
+  .room-page .mobile-frame {
+    overflow: visible !important;
+  }
+  .room-page .game-screen {
+    overflow: visible !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px) !important;
+  }
+}

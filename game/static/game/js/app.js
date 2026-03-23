@@ -10,8 +10,19 @@
       method: 'POST',
       headers: { 'X-CSRFToken': csrf, 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
       body: formBody(payload || {}),
+      credentials: 'same-origin',
     });
-    return response.json();
+    let data = {};
+    try {
+      data = await response.json();
+    } catch (e) {
+      data = { ok: false };
+    }
+    data.__status = response.status;
+    if (data.redirect) {
+      window.location.href = data.redirect;
+    }
+    return data;
   }
 
   function updateHangman(selector, mistakes, maxMistakes = 6) {
@@ -349,7 +360,16 @@
       const sep = room.dataset.stateUrl.includes('?') ? '&' : '?';
       const url = `${room.dataset.stateUrl}${sep}_=${Date.now()}`;
       const response = await fetch(url, { cache: 'no-store', credentials: 'same-origin' });
-      const data = await response.json();
+      let data = {};
+      try {
+        data = await response.json();
+      } catch (e) {
+        data = { ok: false };
+      }
+      if (data.redirect) {
+        window.location.href = data.redirect;
+        return;
+      }
       if (data.ok) renderState(data.state, version);
     }
     readyBtn?.addEventListener('click', async () => { roomStateVersion += 1; const data = await post(room.dataset.readyUrl, {}, csrf); if (data.ok) renderState(data.state, roomStateVersion); });

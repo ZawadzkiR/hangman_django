@@ -81,13 +81,34 @@ def _default_nickname(room):
     return f'Player {room.participants.count() + 1}'
 
 
-def _get_participant(request, room):
+def _find_participant(request, room):
     token = ensure_session_token(request)
-    participant = room.participants.filter(session_token=token).first()
-    if participant:
-        return participant
-    nickname = _default_nickname(room)
-    return MultiplayerParticipant.objects.create(room=room, session_token=token, nickname=nickname, order_no=room.participants.count() + 1, language=resolve_ui_language(request))
+    return room.participants.filter(session_token=token).first()
+
+
+def _require_participant(request, room):
+    participant = _find_participant(request, room)
+    if not participant:
+        raise MultiplayerParticipant.DoesNotExist
+    return participant
+
+
+def _resequence_participants(room):
+    for index, participant in enumerate(room.participants.order_by('order_no', 'joined_at'), start=1):
+        if participant.order_no != index:
+            participant.order_no = index
+            participant.save(update_fields=['order_no'])
+
+
+def _drop_unready_players(room, host_participant):
+    participants = list(room.participants.order_by('order_no', 'joined_at'))
+    keep_ids = []
+    for participant in participants:
+        if participant.id == host_participant.id or participant.is_ready:
+            keep_ids.append(participant.id)
+    room.participants.exclude(id__in=keep_ids).delete()
+    _resequence_participants(room)
+    return list(room.participants.order_by('order_no', 'joined_at'))
 
 
 def home(request):
@@ -186,7 +207,9 @@ def play(request):
 
 def room(request, code):
     room_obj = get_object_or_404(MultiplayerRoom, code=code.upper())
-    participant = _get_participant(request, room_obj)
+    participant = _find_participant(request, room_obj)
+    if not participant:
+        return redirect('home')
     context = _base_context(request)
     context.update({'room': room_obj, 'participant': participant, 'state': room_state(room_obj, participant, resolve_ui_language(request)), 'is_host': participant.session_token == room_obj.host_session})
     return render(request, 'game/room.html', context)
@@ -283,14 +306,18 @@ def api_new_round(request):
 @require_GET
 def api_room_state(request, code):
     room = get_object_or_404(MultiplayerRoom, code=code.upper())
-    participant = _get_participant(request, room)
+    participant = _find_participant(request, room)
+    if not participant:
+        return JsonResponse({'ok': False, 'redirect': '/'}, status=403)
     return JsonResponse({'ok': True, 'state': room_state(room, participant, resolve_ui_language(request))})
 
 
 @require_POST
 def api_room_ready(request, code):
     room = get_object_or_404(MultiplayerRoom, code=code.upper())
-    participant = _get_participant(request, room)
+    participant = _find_participant(request, room)
+    if not participant:
+        return JsonResponse({'ok': False, 'redirect': '/'}, status=403)
     if room.status in {'playing', 'finished'}:
         return JsonResponse({'ok': True, 'state': room_state(room, participant, resolve_ui_language(request))})
     participant.is_ready = not participant.is_ready
@@ -302,29 +329,27 @@ def api_room_ready(request, code):
 @require_POST
 def api_room_start(request, code):
     room = get_object_or_404(MultiplayerRoom, code=code.upper())
-    participant = _get_participant(request, room)
+    participant = _find_participant(request, room)
+    if not participant:
+        return JsonResponse({'ok': False, 'redirect': '/'}, status=403)
     ui_lang = resolve_ui_language(request)
     if participant.session_token != room.host_session:
         return JsonResponse({'ok': False}, status=403)
-    participants = list(room.participants.all())
-    if len(participants) < 2:
-        return JsonResponse({'ok': False, 'message': t(ui_lang)['need_players']}, status=400)
     if room.status != 'waiting':
         return JsonResponse({'ok': True, 'state': room_state(room, participant, ui_lang)})
     if not participant.is_ready:
         participant.is_ready = True
         participant.round_status = 'idle'
         participant.save(update_fields=['is_ready', 'round_status'])
-    others = [p for p in participants if p.id != participant.id]
-    if not others or not all(p.is_ready for p in others):
-        return JsonResponse({'ok': False, 'message': t(ui_lang)['need_ready']}, status=400)
-    for p in room.participants.all():
+    participants = _drop_unready_players(room, participant)
+    participant.refresh_from_db()
+    if len(participants) < 2:
+        return JsonResponse({'ok': False, 'message': t(ui_lang)['need_players']}, status=400)
+    for p in participants:
         if not p.is_ready or p.round_status != 'idle':
             p.is_ready = True
             p.round_status = 'idle'
             p.save(update_fields=['is_ready', 'round_status'])
-    if not can_start_room(room, participant):
-        return JsonResponse({'ok': False, 'message': t(ui_lang)['need_ready']}, status=400)
     start_room_round(room)
     return JsonResponse({'ok': True, 'state': room_state(room, participant, ui_lang)})
 
@@ -332,7 +357,9 @@ def api_room_start(request, code):
 @require_POST
 def api_room_next_round(request, code):
     room = get_object_or_404(MultiplayerRoom, code=code.upper())
-    participant = _get_participant(request, room)
+    participant = _find_participant(request, room)
+    if not participant:
+        return JsonResponse({'ok': False, 'redirect': '/'}, status=403)
     if participant.session_token != room.host_session:
         return JsonResponse({'ok': False}, status=403)
     if room.status == 'finished':
@@ -349,7 +376,9 @@ def api_room_next_round(request, code):
 @require_POST
 def api_room_guess(request, code):
     room = get_object_or_404(MultiplayerRoom, code=code.upper())
-    participant = _get_participant(request, room)
+    participant = _find_participant(request, room)
+    if not participant:
+        return JsonResponse({'ok': False, 'redirect': '/'}, status=403)
     finalize_room_if_needed(room)
     room.refresh_from_db()
     if room.status != 'playing' or participant.round_status != 'playing':
@@ -385,6 +414,7 @@ def api_room_leave(request, code):
     room = get_object_or_404(MultiplayerRoom, code=code.upper())
     token = ensure_session_token(request)
     room.participants.filter(session_token=token).delete()
+    _resequence_participants(room)
     if not room.participants.exists():
         room.delete()
     else:
@@ -423,7 +453,7 @@ def manifest(request):
 @require_GET
 def service_worker(request):
     js = f"""
-const CACHE_NAME = 'hangman-shell-v3';
+const CACHE_NAME = 'hangman-shell-v4';
 const URLS = [
   '/',
   '/leaderboard/',
