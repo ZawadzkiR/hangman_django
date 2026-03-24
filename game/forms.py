@@ -14,6 +14,11 @@ MISTAKE_MODE_CHOICES = [
     ('hard', 'Hard'),
 ]
 
+ROOM_MODE_CHOICES = [
+    ('vs', 'VS'),
+    ('coop', 'Co-op'),
+]
+
 
 class StartGameForm(forms.Form):
     language = forms.ChoiceField(choices=LANGUAGE_CHOICES, label='Game language')
@@ -41,6 +46,7 @@ class CreateRoomForm(forms.Form):
     max_rounds = forms.IntegerField(min_value=3, max_value=30, initial=10)
     target_score = forms.IntegerField(min_value=20, max_value=500, initial=120)
     mistake_mode = forms.ChoiceField(choices=MISTAKE_MODE_CHOICES, initial='medium')
+    mode = forms.ChoiceField(choices=ROOM_MODE_CHOICES, initial='vs')
 
 
 class JoinRoomForm(forms.Form):

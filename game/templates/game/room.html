@@ -11,6 +11,7 @@
   data-leave-url="{% url 'api_room_leave' room.code %}"
   data-csrf="{{ csrf_token }}"
   data-none-label="{{ tr.none }}"
+  data-used-letters-label="{{ tr.used_letters }}"
   data-hit-msg="{{ tr.hit_msg }}"
   data-miss-msg="{{ tr.miss_msg }}"
   data-already-used="{{ tr.already_used }}"
@@ -23,6 +24,13 @@
   data-final-word-label="{{ tr.final_word }}"
   data-final-table-label="{{ tr.final_table }}"
   data-winner-label="{{ tr.match_winner }}"
+  data-current-turn-label="{{ tr.current_turn }}"
+  data-your-turn-label="{{ tr.your_turn }}"
+  data-waiting-turn-label="{{ tr.waiting_turn }}"
+  data-mode-vs="{{ tr.mode_vs }}"
+  data-mode-coop="{{ tr.mode_coop }}"
+  data-shared-letters-label="{{ tr.shared_letters }}"
+  data-language-locked="{{ tr.language_locked }}"
 >
   <div class="hud-row hud-row-4">
     <div class="score-box"><span>{{ tr.room_code }}</span><strong id="room-code-value">{{ room.code }}</strong></div>
@@ -32,7 +40,7 @@
   </div>
 
   <div class="word-zone">
-    <div class="filter-chip-row"><span class="filter-chip">{{ tr.difficulty }}: {{ room.difficulty_mode }}</span><span class="filter-chip">{{ tr.category }}: {{ room.category_mode }}</span><span class="filter-chip">{{ tr.mistake_mode }}: <span id="room-max-mistakes">{{ state.room.max_mistakes }}</span></span><span class="filter-chip">{{ tr.room_players }}: <span id="room-player-count">{{ state.room.player_count }}</span></span></div>
+    <div class="filter-chip-row"><span class="filter-chip">{{ tr.mode }}: <strong id="room-mode-text">{% if state.room.mode == 'coop' %}{{ tr.mode_coop }}{% else %}{{ tr.mode_vs }}{% endif %}</strong></span><span class="filter-chip">{{ tr.difficulty }}: {{ room.difficulty_mode }}</span><span class="filter-chip">{{ tr.category }}: {{ room.category_mode }}</span><span class="filter-chip">{{ tr.mistake_mode }}: <span id="room-max-mistakes">{{ state.room.max_mistakes }}</span></span><span class="filter-chip">{{ tr.room_players }}: <span id="room-player-count">{{ state.room.player_count }}</span></span></div>
     <div class="category-line category-line-room"><span class="room-category-label">{{ tr.category }}:</span> <strong id="room-category-text" class="room-category-value">{{ state.room.current_category }}</strong></div>
     <div id="room-reveal-banner" class="room-reveal-banner{% if state.room.status != 'round_over' and state.room.status != 'finished' and state.you.status != 'won' and state.you.status != 'lost' and state.you.status != 'timeout' %} hidden{% endif %}">
       <span class="room-reveal-label">{{ tr.final_word }}:</span>
@@ -40,6 +48,8 @@
     </div>
     <div id="room-word-line" class="word-line">{{ state.you.stats.masked_word }}</div>
     <div class="status-line"><span>{{ tr.your_status }}:</span> <strong id="room-status-text">{{ state.you.status }}</strong></div>
+    <div class="status-line coop-turn-line"><span id="room-turn-label">{{ tr.current_turn }}:</span> <strong id="room-current-turn">{{ state.room.current_turn_nickname|default:'—' }}</strong></div>
+    <div id="room-language-lock" class="chalk-small{% if state.room.mode != 'coop' %} hidden{% endif %}">{{ tr.language_locked }}</div>
   </div>
 
   <div class="middle-zone">
@@ -69,7 +79,7 @@
             </svg>
     </div>
     <div class="info-zone room-side compact-info">
-      <p><span>{{ tr.used_letters }}:</span> <strong id="room-used-letters">{% if state.you.stats.guessed_letters %}{{ state.you.stats.guessed_letters|join:', '|upper }}{% else %}{{ tr.none }}{% endif %}</strong></p>
+      <p><span id="room-used-label">{{ tr.used_letters }}:</span> <strong id="room-used-letters">{% if state.you.stats.guessed_letters %}{{ state.you.stats.guessed_letters|join:', '|upper }}{% else %}{{ tr.none }}{% endif %}</strong></p>
       <p><span>{{ tr.remaining }}:</span> <strong id="room-remaining-value">{{ state.you.stats.remaining }}</strong></p>
       <p><span>{{ tr.players_ready }}:</span> <strong id="room-ready-count">{{ state.room.ready_count }}/{{ state.room.player_count }}</strong></p>
       <p><span>{{ tr.target_score }}:</span> <strong id="room-target-score">{{ state.room.target_score }}</strong></p>

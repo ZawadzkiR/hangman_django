@@ -21,6 +21,7 @@ from .services import (
     generate_room_code,
     get_equivalent_letters,
     normalize_word,
+    next_turn_order,
     player_round_stats,
     resolve_ui_language,
     room_state,
@@ -120,7 +121,8 @@ def home(request):
     create = CreateRoomForm(initial={'language': default_game_lang, 'difficulty': 'random', 'turn_seconds': 45, 'max_rounds': 10, 'target_score': 120, 'mistake_mode': 'medium'})
     create.fields['category'].choices = category_choices(default_game_lang)
     join = JoinRoomForm(initial={'language': default_game_lang})
-    context.update({'form': start, 'create_form': create, 'join_form': join, 'last_player': request.session.get(LAST_PLAYER_KEY, '')})
+    open_rooms = MultiplayerRoom.objects.filter(status='waiting').order_by('-created_at')[:24]
+    context.update({'form': start, 'create_form': create, 'join_form': join, 'last_player': request.session.get(LAST_PLAYER_KEY, ''), 'open_rooms': open_rooms})
     return render(request, 'game/home.html', context)
 
 
@@ -140,6 +142,29 @@ def api_categories(request):
     if language not in {code for code, _ in Word._meta.get_field('language').choices}:
         language = 'en'
     return JsonResponse({'ok': True, 'categories': [{'value': v, 'label': l} for v, l in category_choices(language)]})
+
+
+
+@require_GET
+def api_open_rooms(request):
+    rooms = MultiplayerRoom.objects.filter(status='waiting').order_by('-created_at')[:24]
+    payload = []
+    for room in rooms:
+        participants = list(room.participants.order_by('order_no', 'joined_at'))
+        payload.append({
+            'code': room.code,
+            'host_name': room.host_name,
+            'player_count': len(participants),
+            'ready_count': sum(1 for p in participants if p.is_ready),
+            'turn_seconds': room.turn_seconds,
+            'max_rounds': room.max_rounds,
+            'target_score': room.target_score,
+            'category_mode': room.category_mode,
+            'difficulty_mode': room.difficulty_mode,
+            'mode': getattr(room, 'room_mode', 'vs'),
+            'language': room.host_language,
+        })
+    return JsonResponse({'ok': True, 'rooms': payload})
 
 
 @require_POST
@@ -168,7 +193,7 @@ def create_room(request):
     nickname = form.cleaned_data['nickname'].strip() or 'Player 1'
     room = MultiplayerRoom.objects.create(
         code=code, host_name=nickname, host_session=token, host_language=language, turn_seconds=form.cleaned_data['turn_seconds'],
-        max_rounds=form.cleaned_data['max_rounds'], target_score=form.cleaned_data['target_score'], difficulty_mode=form.cleaned_data['difficulty'], category_mode=form.cleaned_data['category'], mistake_mode=form.cleaned_data['mistake_mode'], max_players=999999,
+        max_rounds=form.cleaned_data['max_rounds'], target_score=form.cleaned_data['target_score'], difficulty_mode=form.cleaned_data['difficulty'], category_mode=form.cleaned_data['category'], mistake_mode=form.cleaned_data['mistake_mode'], room_mode=form.cleaned_data['mode'], max_players=999999,
     )
     MultiplayerParticipant.objects.create(room=room, session_token=token, nickname=nickname, order_no=1, language=language, is_ready=True)
     request.session[ROOM_KEY] = room.code
@@ -186,6 +211,8 @@ def join_room(request):
     language = form.cleaned_data['language']
     request.session['ui_lang'] = language
     nickname = form.cleaned_data['nickname'].strip() or _default_nickname(room)
+    if getattr(room, 'room_mode', 'vs') == 'coop':
+        language = room.host_language
     participant, _ = MultiplayerParticipant.objects.get_or_create(room=room, session_token=token, defaults={'nickname': nickname, 'order_no': room.participants.count() + 1, 'language': language, 'is_ready': False})
     participant.nickname = nickname or participant.nickname
     participant.language = language
@@ -388,6 +415,25 @@ def api_room_guess(request, code):
     if not normalized:
         return JsonResponse({'ok': False, 'error': 'Invalid letter'}, status=400)
     letter = normalized[0]
+
+    if getattr(room, 'room_mode', 'vs') == 'coop':
+        if participant.order_no != room.current_turn_order:
+            return JsonResponse({'ok': True, 'state': room_state(room, participant, resolve_ui_language(request)), 'already_used': True, 'hit': False})
+        guessed = deserialize_guessed(room.shared_guessed_letters)
+        equivalents = get_equivalent_letters(letter, room.host_language)
+        already_used = bool(guessed & equivalents)
+        hit = False
+        if not already_used:
+            guessed |= equivalents
+            hit = any(ch in equivalents for ch in normalize_word(room.current_word_text))
+            if not hit:
+                room.shared_mistakes += 1
+            room.shared_guessed_letters = serialize_guessed(guessed)
+            room.current_turn_order = next_turn_order(room, room.current_turn_order)
+            room.save(update_fields=['shared_guessed_letters', 'shared_mistakes', 'current_turn_order'])
+        finalize_room_if_needed(room)
+        return JsonResponse({'ok': True, 'hit': hit, 'already_used': already_used, 'state': room_state(room, participant, resolve_ui_language(request))})
+
     guessed = deserialize_guessed(participant.guessed_letters)
     equivalents = get_equivalent_letters(letter, participant.language)
     already_used = bool(guessed & equivalents)
@@ -453,7 +499,7 @@ def manifest(request):
 @require_GET
 def service_worker(request):
     js = f"""
-const CACHE_NAME = 'hangman-shell-v4';
+const CACHE_NAME = 'hangman-shell-v5';
 const URLS = [
   '/',
   '/leaderboard/',

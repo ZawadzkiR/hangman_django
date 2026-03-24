@@ -51,11 +51,12 @@
 
     <article class="mode-card">
       <h2>{{ tr.vs_mode }}</h2>
-      <p>{{ tr.how_vs_works }}</p>
+      <p>{{ tr.how_vs_works }}</p><p class="chalk-small">{{ tr.coop_desc }}</p>
       <div class="tabs-card" data-tabs>
         <div class="tabs-header" role="tablist" aria-label="Multiplayer tabs">
           <button type="button" class="tab-btn active" data-tab-target="create-room-panel">{{ tr.create_room }}</button>
           <button type="button" class="tab-btn" data-tab-target="join-room-panel">{{ tr.join_room }}</button>
+          <button type="button" class="tab-btn" data-tab-target="open-rooms-panel">Free rooms</button>
         </div>
         <div id="create-room-panel" class="tab-panel active">
           <form method="post" action="{% url 'create_room' %}" class="start-panel compact dynamic-category-form inline-form" data-categories-url="{% url 'api_categories' %}">
@@ -95,13 +96,22 @@
                 <input type="number" name="target_score" min="20" max="500" value="120">
               </div>
             </div>
-            <div>
-              <label>{{ tr.mistake_mode }}</label>
-              <select name="mistake_mode">
-                <option value="easy">{{ tr.mistake_easy }}</option>
-                <option value="medium" selected>{{ tr.mistake_medium }}</option>
-                <option value="hard">{{ tr.mistake_hard }}</option>
-              </select>
+            <div class="filter-grid">
+              <div>
+                <label>{{ tr.mistake_mode }}</label>
+                <select name="mistake_mode">
+                  <option value="easy">{{ tr.mistake_easy }}</option>
+                  <option value="medium" selected>{{ tr.mistake_medium }}</option>
+                  <option value="hard">{{ tr.mistake_hard }}</option>
+                </select>
+              </div>
+              <div>
+                <label>{{ tr.mode }}</label>
+                <select name="mode">
+                  <option value="vs">{{ tr.mode_vs }}</option>
+                  <option value="coop">{{ tr.mode_coop }}</option>
+                </select>
+              </div>
             </div>
             <p class="chalk-small">{{ tr.room_unlimited }}</p>
             <button type="submit" class="tray-btn strong">{{ tr.create_room }}</button>
@@ -117,6 +127,35 @@
             <label>{{ tr.game_language }}</label>
             {{ join_form.language }}
             <button type="submit" class="tray-btn">{{ tr.join_room }}</button>
+          </form>
+        </div>
+
+        <div id="open-rooms-panel" class="tab-panel">
+          <form method="post" action="{% url 'join_room' %}" class="start-panel compact inline-form" id="open-rooms-form" data-open-rooms-url="{% url 'api_open_rooms' %}">
+            {% csrf_token %}
+            <label>{{ tr.nickname }}</label>
+            <input type="text" name="nickname" maxlength="32" placeholder="{{ tr.nickname_placeholder }}">
+            <label>{{ tr.game_language }}</label>
+            {{ join_form.language }}
+            <input type="hidden" name="room_code" id="open-room-code-input">
+            <div class="open-rooms-list" id="open-rooms-list">
+              {% for open_room in open_rooms %}
+                <article class="open-room-card">
+                  <div class="open-room-head">
+                    <strong>{{ open_room.code }}</strong>
+                    <span>{{ open_room.participants.count }} players</span>
+                  </div>
+                  <div class="open-room-meta">
+                    <span>Host: {{ open_room.host_name }}</span>
+                    <span>Ready: {{ open_room.participants.all|length }}/{{ open_room.participants.all|length }}</span>
+                    <span>{{ tr.timer }}: {{ open_room.turn_seconds }}</span>
+                  </div>
+                  <button type="submit" class="tray-btn open-room-join-btn" name="room_code" value="{{ open_room.code }}">{{ tr.join_room }}</button>
+                </article>
+              {% empty %}
+                <p class="chalk-small" id="open-rooms-empty">No free rooms right now.</p>
+              {% endfor %}
+            </div>
           </form>
         </div>
       </div>

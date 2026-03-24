@@ -30256,5 +30256,2777 @@
     "hint": "",
     "difficulty": 1,
     "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_001",
+    "language": "pl",
+    "text": "wiewiórka",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_001",
+    "language": "sk",
+    "text": "veverička",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_002",
+    "language": "pl",
+    "text": "żubr",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_002",
+    "language": "sk",
+    "text": "zubor",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_003",
+    "language": "pl",
+    "text": "jeż",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_003",
+    "language": "sk",
+    "text": "jež",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_004",
+    "language": "pl",
+    "text": "bocian",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_004",
+    "language": "sk",
+    "text": "bocian",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_005",
+    "language": "pl",
+    "text": "wydra",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_005",
+    "language": "sk",
+    "text": "vydra",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_006",
+    "language": "pl",
+    "text": "sowa",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_006",
+    "language": "sk",
+    "text": "sova",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_007",
+    "language": "pl",
+    "text": "nietoperz",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_007",
+    "language": "sk",
+    "text": "netopier",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_008",
+    "language": "pl",
+    "text": "żółw",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_008",
+    "language": "sk",
+    "text": "korytnačka",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_009",
+    "language": "pl",
+    "text": "jaszczurka",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_009",
+    "language": "sk",
+    "text": "jašterica",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_010",
+    "language": "pl",
+    "text": "foka",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_010",
+    "language": "sk",
+    "text": "tuleň",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_011",
+    "language": "pl",
+    "text": "łos",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_011",
+    "language": "sk",
+    "text": "los",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_012",
+    "language": "pl",
+    "text": "szczur",
+    "category": "zwierzęta",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_animals_012",
+    "language": "sk",
+    "text": "potkan",
+    "category": "zvieratá",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_013",
+    "language": "pl",
+    "text": "pierogi",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_013",
+    "language": "sk",
+    "text": "pirohy",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_014",
+    "language": "pl",
+    "text": "naleśnik",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_014",
+    "language": "sk",
+    "text": "palacinka",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_015",
+    "language": "pl",
+    "text": "sałatka",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_015",
+    "language": "sk",
+    "text": "šalát",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_016",
+    "language": "pl",
+    "text": "kanapka",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_016",
+    "language": "sk",
+    "text": "sendvič",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_017",
+    "language": "pl",
+    "text": "kiełbasa",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_017",
+    "language": "sk",
+    "text": "klobása",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_018",
+    "language": "pl",
+    "text": "makaron",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_018",
+    "language": "sk",
+    "text": "cestoviny",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_019",
+    "language": "pl",
+    "text": "omlet",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_019",
+    "language": "sk",
+    "text": "omeleta",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_020",
+    "language": "pl",
+    "text": "bigos",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_020",
+    "language": "sk",
+    "text": "guláš",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_021",
+    "language": "pl",
+    "text": "budyń",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_021",
+    "language": "sk",
+    "text": "puding",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_022",
+    "language": "pl",
+    "text": "gofr",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_022",
+    "language": "sk",
+    "text": "vafľa",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_023",
+    "language": "pl",
+    "text": "twaróg",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_023",
+    "language": "sk",
+    "text": "tvaroh",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_024",
+    "language": "pl",
+    "text": "kasza",
+    "category": "jedzenie",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_food_024",
+    "language": "sk",
+    "text": "kaša",
+    "category": "jedlo",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_025",
+    "language": "pl",
+    "text": "rzeka",
+    "category": "natura",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_025",
+    "language": "sk",
+    "text": "rieka",
+    "category": "príroda",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_026",
+    "language": "pl",
+    "text": "wodospad",
+    "category": "natura",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_026",
+    "language": "sk",
+    "text": "vodopád",
+    "category": "príroda",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_027",
+    "language": "pl",
+    "text": "jaskinia",
+    "category": "natura",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_027",
+    "language": "sk",
+    "text": "jaskyňa",
+    "category": "príroda",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_028",
+    "language": "pl",
+    "text": "pustynia",
+    "category": "natura",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_028",
+    "language": "sk",
+    "text": "púšť",
+    "category": "príroda",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_029",
+    "language": "pl",
+    "text": "burza",
+    "category": "natura",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_029",
+    "language": "sk",
+    "text": "búrka",
+    "category": "príroda",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_030",
+    "language": "pl",
+    "text": "śnieżyca",
+    "category": "natura",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_030",
+    "language": "sk",
+    "text": "sneženie",
+    "category": "príroda",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_031",
+    "language": "pl",
+    "text": "lawina",
+    "category": "natura",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_031",
+    "language": "sk",
+    "text": "lavína",
+    "category": "príroda",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_032",
+    "language": "pl",
+    "text": "wyspa",
+    "category": "natura",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_032",
+    "language": "sk",
+    "text": "ostrov",
+    "category": "príroda",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_033",
+    "language": "pl",
+    "text": "półwysep",
+    "category": "natura",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_033",
+    "language": "sk",
+    "text": "polostrov",
+    "category": "príroda",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_034",
+    "language": "pl",
+    "text": "dolina",
+    "category": "natura",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_nature_034",
+    "language": "sk",
+    "text": "dolina",
+    "category": "príroda",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_035",
+    "language": "pl",
+    "text": "programista",
+    "category": "zawody",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_035",
+    "language": "sk",
+    "text": "programátor",
+    "category": "povolania",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_036",
+    "language": "pl",
+    "text": "strażak",
+    "category": "zawody",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_036",
+    "language": "sk",
+    "text": "hasič",
+    "category": "povolania",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_037",
+    "language": "pl",
+    "text": "ratownik",
+    "category": "zawody",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_037",
+    "language": "sk",
+    "text": "záchranár",
+    "category": "povolania",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_038",
+    "language": "pl",
+    "text": "księgowy",
+    "category": "zawody",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_038",
+    "language": "sk",
+    "text": "účtovník",
+    "category": "povolania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_039",
+    "language": "pl",
+    "text": "architekt",
+    "category": "zawody",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_039",
+    "language": "sk",
+    "text": "architekt",
+    "category": "povolania",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_040",
+    "language": "pl",
+    "text": "kucharz",
+    "category": "zawody",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_040",
+    "language": "sk",
+    "text": "kuchár",
+    "category": "povolania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_041",
+    "language": "pl",
+    "text": "kelner",
+    "category": "zawody",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_041",
+    "language": "sk",
+    "text": "čašník",
+    "category": "povolania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_042",
+    "language": "pl",
+    "text": "ogrodnik",
+    "category": "zawody",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_042",
+    "language": "sk",
+    "text": "záhradník",
+    "category": "povolania",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_043",
+    "language": "pl",
+    "text": "mechanik",
+    "category": "zawody",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_043",
+    "language": "sk",
+    "text": "mechanik",
+    "category": "povolania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_044",
+    "language": "pl",
+    "text": "piekarz",
+    "category": "zawody",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_jobs_044",
+    "language": "sk",
+    "text": "pekár",
+    "category": "povolania",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_045",
+    "language": "pl",
+    "text": "kolano",
+    "category": "ciało",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_045",
+    "language": "sk",
+    "text": "koleno",
+    "category": "telo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_046",
+    "language": "pl",
+    "text": "ramię",
+    "category": "ciało",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_046",
+    "language": "sk",
+    "text": "rameno",
+    "category": "telo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_047",
+    "language": "pl",
+    "text": "łokieć",
+    "category": "ciało",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_047",
+    "language": "sk",
+    "text": "lakeť",
+    "category": "telo",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_048",
+    "language": "pl",
+    "text": "nadgarstek",
+    "category": "ciało",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_048",
+    "language": "sk",
+    "text": "zápästie",
+    "category": "telo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_049",
+    "language": "pl",
+    "text": "kostka",
+    "category": "ciało",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_049",
+    "language": "sk",
+    "text": "členok",
+    "category": "telo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_050",
+    "language": "pl",
+    "text": "kręgosłup",
+    "category": "ciało",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_050",
+    "language": "sk",
+    "text": "chrbtica",
+    "category": "telo",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_051",
+    "language": "pl",
+    "text": "policzek",
+    "category": "ciało",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_051",
+    "language": "sk",
+    "text": "líce",
+    "category": "telo",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_052",
+    "language": "pl",
+    "text": "broda",
+    "category": "ciało",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_body_052",
+    "language": "sk",
+    "text": "brada",
+    "category": "telo",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_053",
+    "language": "pl",
+    "text": "sweter",
+    "category": "ubrania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_053",
+    "language": "sk",
+    "text": "sveter",
+    "category": "oblečenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_054",
+    "language": "pl",
+    "text": "kurtka",
+    "category": "ubrania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_054",
+    "language": "sk",
+    "text": "bunda",
+    "category": "oblečenie",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_055",
+    "language": "pl",
+    "text": "szalik",
+    "category": "ubrania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_055",
+    "language": "sk",
+    "text": "šál",
+    "category": "oblečenie",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_056",
+    "language": "pl",
+    "text": "rękawiczka",
+    "category": "ubrania",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_056",
+    "language": "sk",
+    "text": "rukavica",
+    "category": "oblečenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_057",
+    "language": "pl",
+    "text": "koszula",
+    "category": "ubrania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_057",
+    "language": "sk",
+    "text": "košeľa",
+    "category": "oblečenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_058",
+    "language": "pl",
+    "text": "spódnica",
+    "category": "ubrania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_058",
+    "language": "sk",
+    "text": "sukňa",
+    "category": "oblečenie",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_059",
+    "language": "pl",
+    "text": "kapelusz",
+    "category": "ubrania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_059",
+    "language": "sk",
+    "text": "klobúk",
+    "category": "oblečenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_060",
+    "language": "pl",
+    "text": "piżama",
+    "category": "ubrania",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_clothes_060",
+    "language": "sk",
+    "text": "pyžamo",
+    "category": "oblečenie",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_061",
+    "language": "pl",
+    "text": "tramwaj",
+    "category": "transport",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_061",
+    "language": "sk",
+    "text": "električka",
+    "category": "doprava",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_062",
+    "language": "pl",
+    "text": "hulajnoga",
+    "category": "transport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_062",
+    "language": "sk",
+    "text": "kolobežka",
+    "category": "doprava",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_063",
+    "language": "pl",
+    "text": "żaglówka",
+    "category": "transport",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_063",
+    "language": "sk",
+    "text": "plachetnica",
+    "category": "doprava",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_064",
+    "language": "pl",
+    "text": "prom",
+    "category": "transport",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_064",
+    "language": "sk",
+    "text": "trajekt",
+    "category": "doprava",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_065",
+    "language": "pl",
+    "text": "koparka",
+    "category": "transport",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_065",
+    "language": "sk",
+    "text": "bager",
+    "category": "doprava",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_066",
+    "language": "pl",
+    "text": "ciężarówka",
+    "category": "transport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_066",
+    "language": "sk",
+    "text": "kamión",
+    "category": "doprava",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_067",
+    "language": "pl",
+    "text": "rower",
+    "category": "transport",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_067",
+    "language": "sk",
+    "text": "bicykel",
+    "category": "doprava",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_068",
+    "language": "pl",
+    "text": "pociąg",
+    "category": "transport",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_transport_068",
+    "language": "sk",
+    "text": "vlak",
+    "category": "doprava",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_069",
+    "language": "pl",
+    "text": "regał",
+    "category": "meble",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_069",
+    "language": "sk",
+    "text": "regál",
+    "category": "nábytok",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_070",
+    "language": "pl",
+    "text": "krzesło",
+    "category": "meble",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_070",
+    "language": "sk",
+    "text": "stolička",
+    "category": "nábytok",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_071",
+    "language": "pl",
+    "text": "biurko",
+    "category": "meble",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_071",
+    "language": "sk",
+    "text": "písací stôl",
+    "category": "nábytok",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_072",
+    "language": "pl",
+    "text": "komoda",
+    "category": "meble",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_072",
+    "language": "sk",
+    "text": "komoda",
+    "category": "nábytok",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_073",
+    "language": "pl",
+    "text": "witryna",
+    "category": "meble",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_073",
+    "language": "sk",
+    "text": "vitrína",
+    "category": "nábytok",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_074",
+    "language": "pl",
+    "text": "taboret",
+    "category": "meble",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_074",
+    "language": "sk",
+    "text": "stolička",
+    "category": "nábytok",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_075",
+    "language": "pl",
+    "text": "zagłówek",
+    "category": "meble",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_075",
+    "language": "sk",
+    "text": "opierka",
+    "category": "nábytok",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_076",
+    "language": "pl",
+    "text": "kanapa",
+    "category": "meble",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_furniture_076",
+    "language": "sk",
+    "text": "pohovka",
+    "category": "nábytok",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_077",
+    "language": "pl",
+    "text": "klawiatura",
+    "category": "technologia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_077",
+    "language": "sk",
+    "text": "klávesnica",
+    "category": "technológia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_078",
+    "language": "pl",
+    "text": "słuchawki",
+    "category": "technologia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_078",
+    "language": "sk",
+    "text": "slúchadlá",
+    "category": "technológia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_079",
+    "language": "pl",
+    "text": "drukarka",
+    "category": "technologia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_079",
+    "language": "sk",
+    "text": "tlačiareň",
+    "category": "technológia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_080",
+    "language": "pl",
+    "text": "ładowarka",
+    "category": "technologia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_080",
+    "language": "sk",
+    "text": "nabíjačka",
+    "category": "technológia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_081",
+    "language": "pl",
+    "text": "mikrofon",
+    "category": "technologia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_081",
+    "language": "sk",
+    "text": "mikrofón",
+    "category": "technológia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_082",
+    "language": "pl",
+    "text": "monitor",
+    "category": "technologia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_082",
+    "language": "sk",
+    "text": "monitor",
+    "category": "technológia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_083",
+    "language": "pl",
+    "text": "router",
+    "category": "technologia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_083",
+    "language": "sk",
+    "text": "router",
+    "category": "technológia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_084",
+    "language": "pl",
+    "text": "serwer",
+    "category": "technologia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_084",
+    "language": "sk",
+    "text": "server",
+    "category": "technológia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_085",
+    "language": "pl",
+    "text": "ekran",
+    "category": "technologia",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_085",
+    "language": "sk",
+    "text": "obrazovka",
+    "category": "technológia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_086",
+    "language": "pl",
+    "text": "bateria",
+    "category": "technologia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_technology_086",
+    "language": "sk",
+    "text": "batéria",
+    "category": "technológia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_087",
+    "language": "pl",
+    "text": "zeszyt",
+    "category": "szkoła",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_087",
+    "language": "sk",
+    "text": "zošit",
+    "category": "škola",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_088",
+    "language": "pl",
+    "text": "plecak",
+    "category": "szkoła",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_088",
+    "language": "sk",
+    "text": "batoh",
+    "category": "škola",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_089",
+    "language": "pl",
+    "text": "sprawdzian",
+    "category": "szkoła",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_089",
+    "language": "sk",
+    "text": "test",
+    "category": "škola",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_090",
+    "language": "pl",
+    "text": "tablica",
+    "category": "szkoła",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_090",
+    "language": "sk",
+    "text": "tabuľa",
+    "category": "škola",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_091",
+    "language": "pl",
+    "text": "linijka",
+    "category": "szkoła",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_091",
+    "language": "sk",
+    "text": "pravítko",
+    "category": "škola",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_092",
+    "language": "pl",
+    "text": "gumka",
+    "category": "szkoła",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_092",
+    "language": "sk",
+    "text": "guma",
+    "category": "škola",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_093",
+    "language": "pl",
+    "text": "świetlica",
+    "category": "szkoła",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_093",
+    "language": "sk",
+    "text": "družina",
+    "category": "škola",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_094",
+    "language": "pl",
+    "text": "lekcja",
+    "category": "szkoła",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_school_094",
+    "language": "sk",
+    "text": "hodina",
+    "category": "škola",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_095",
+    "language": "pl",
+    "text": "siatkówka",
+    "category": "sport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_095",
+    "language": "sk",
+    "text": "volejbal",
+    "category": "šport",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_096",
+    "language": "pl",
+    "text": "łyżwiarstwo",
+    "category": "sport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_096",
+    "language": "sk",
+    "text": "korčuľovanie",
+    "category": "šport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_097",
+    "language": "pl",
+    "text": "szermierka",
+    "category": "sport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_097",
+    "language": "sk",
+    "text": "šerm",
+    "category": "šport",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_098",
+    "language": "pl",
+    "text": "wspinaczka",
+    "category": "sport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_098",
+    "language": "sk",
+    "text": "lezenie",
+    "category": "šport",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_099",
+    "language": "pl",
+    "text": "pływanie",
+    "category": "sport",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_099",
+    "language": "sk",
+    "text": "plávanie",
+    "category": "šport",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_100",
+    "language": "pl",
+    "text": "bieganie",
+    "category": "sport",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_100",
+    "language": "sk",
+    "text": "beh",
+    "category": "šport",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_101",
+    "language": "pl",
+    "text": "narciarstwo",
+    "category": "sport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_101",
+    "language": "sk",
+    "text": "lyžovanie",
+    "category": "šport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_102",
+    "language": "pl",
+    "text": "gimnastyka",
+    "category": "sport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_sport_102",
+    "language": "sk",
+    "text": "gymnastika",
+    "category": "šport",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_103",
+    "language": "pl",
+    "text": "atom",
+    "category": "nauka",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_103",
+    "language": "sk",
+    "text": "atóm",
+    "category": "veda",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_104",
+    "language": "pl",
+    "text": "cząsteczka",
+    "category": "nauka",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_104",
+    "language": "sk",
+    "text": "molekula",
+    "category": "veda",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_105",
+    "language": "pl",
+    "text": "grawitacja",
+    "category": "nauka",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_105",
+    "language": "sk",
+    "text": "gravitácia",
+    "category": "veda",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_106",
+    "language": "pl",
+    "text": "reakcja",
+    "category": "nauka",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_106",
+    "language": "sk",
+    "text": "reakcia",
+    "category": "veda",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_107",
+    "language": "pl",
+    "text": "energia",
+    "category": "nauka",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_107",
+    "language": "sk",
+    "text": "energia",
+    "category": "veda",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_108",
+    "language": "pl",
+    "text": "mikroskop",
+    "category": "nauka",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_108",
+    "language": "sk",
+    "text": "mikroskop",
+    "category": "veda",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_109",
+    "language": "pl",
+    "text": "laboratorium",
+    "category": "nauka",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_109",
+    "language": "sk",
+    "text": "laboratórium",
+    "category": "veda",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_110",
+    "language": "pl",
+    "text": "teleskop",
+    "category": "nauka",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_science_110",
+    "language": "sk",
+    "text": "teleskop",
+    "category": "veda",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_111",
+    "language": "pl",
+    "text": "planszówka",
+    "category": "gry",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_111",
+    "language": "sk",
+    "text": "stolováhra",
+    "category": "hry",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_112",
+    "language": "pl",
+    "text": "szachownica",
+    "category": "gry",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_112",
+    "language": "sk",
+    "text": "šachovnica",
+    "category": "hry",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_113",
+    "language": "pl",
+    "text": "joystick",
+    "category": "gry",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_113",
+    "language": "sk",
+    "text": "joystick",
+    "category": "hry",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_114",
+    "language": "pl",
+    "text": "poziom",
+    "category": "gry",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_114",
+    "language": "sk",
+    "text": "úroveň",
+    "category": "hry",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_115",
+    "language": "pl",
+    "text": "quest",
+    "category": "gry",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_115",
+    "language": "sk",
+    "text": "úloha",
+    "category": "hry",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_116",
+    "language": "pl",
+    "text": "mag",
+    "category": "gry",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_116",
+    "language": "sk",
+    "text": "mág",
+    "category": "hry",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_117",
+    "language": "pl",
+    "text": "rycerz",
+    "category": "gry",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_117",
+    "language": "sk",
+    "text": "rytier",
+    "category": "hry",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_118",
+    "language": "pl",
+    "text": "skrzynia",
+    "category": "gry",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_games_118",
+    "language": "sk",
+    "text": "truhlica",
+    "category": "hry",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_119",
+    "language": "pl",
+    "text": "gitara",
+    "category": "muzyka",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_119",
+    "language": "sk",
+    "text": "gitara",
+    "category": "hudba",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_120",
+    "language": "pl",
+    "text": "fortepian",
+    "category": "muzyka",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_120",
+    "language": "sk",
+    "text": "klavír",
+    "category": "hudba",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_121",
+    "language": "pl",
+    "text": "perkusja",
+    "category": "muzyka",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_121",
+    "language": "sk",
+    "text": "bicie",
+    "category": "hudba",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_122",
+    "language": "pl",
+    "text": "saksofon",
+    "category": "muzyka",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_122",
+    "language": "sk",
+    "text": "saxofón",
+    "category": "hudba",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_123",
+    "language": "pl",
+    "text": "melodia",
+    "category": "muzyka",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_123",
+    "language": "sk",
+    "text": "melódia",
+    "category": "hudba",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_124",
+    "language": "pl",
+    "text": "refren",
+    "category": "muzyka",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_124",
+    "language": "sk",
+    "text": "refrén",
+    "category": "hudba",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_125",
+    "language": "pl",
+    "text": "nuty",
+    "category": "muzyka",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_125",
+    "language": "sk",
+    "text": "noty",
+    "category": "hudba",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_126",
+    "language": "pl",
+    "text": "koncert",
+    "category": "muzyka",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_music_126",
+    "language": "sk",
+    "text": "koncert",
+    "category": "hudba",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_127",
+    "language": "pl",
+    "text": "planeta",
+    "category": "kosmos",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_127",
+    "language": "sk",
+    "text": "planéta",
+    "category": "vesmír",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_128",
+    "language": "pl",
+    "text": "kometa",
+    "category": "kosmos",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_128",
+    "language": "sk",
+    "text": "kométa",
+    "category": "vesmír",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_129",
+    "language": "pl",
+    "text": "meteoryt",
+    "category": "kosmos",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_129",
+    "language": "sk",
+    "text": "meteorit",
+    "category": "vesmír",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_130",
+    "language": "pl",
+    "text": "galaktyka",
+    "category": "kosmos",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_130",
+    "language": "sk",
+    "text": "galaxia",
+    "category": "vesmír",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_131",
+    "language": "pl",
+    "text": "orbita",
+    "category": "kosmos",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_131",
+    "language": "sk",
+    "text": "orbita",
+    "category": "vesmír",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_132",
+    "language": "pl",
+    "text": "rakieta",
+    "category": "kosmos",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_cosmos_132",
+    "language": "sk",
+    "text": "raketa",
+    "category": "vesmír",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_133",
+    "language": "pl",
+    "text": "królestwo",
+    "category": "historia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_133",
+    "language": "sk",
+    "text": "kráľovstvo",
+    "category": "história",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_134",
+    "language": "pl",
+    "text": "rycerstwo",
+    "category": "historia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_134",
+    "language": "sk",
+    "text": "rytierstvo",
+    "category": "história",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_135",
+    "language": "pl",
+    "text": "średniowiecze",
+    "category": "historia",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_135",
+    "language": "sk",
+    "text": "stredovek",
+    "category": "história",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_136",
+    "language": "pl",
+    "text": "zamek",
+    "category": "historia",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_136",
+    "language": "sk",
+    "text": "hrad",
+    "category": "história",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_137",
+    "language": "pl",
+    "text": "cesarz",
+    "category": "historia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_137",
+    "language": "sk",
+    "text": "cisár",
+    "category": "história",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_138",
+    "language": "pl",
+    "text": "korona",
+    "category": "historia",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_history_138",
+    "language": "sk",
+    "text": "koruna",
+    "category": "história",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_139",
+    "language": "pl",
+    "text": "scenariusz",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_139",
+    "language": "sk",
+    "text": "scenár",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_140",
+    "language": "pl",
+    "text": "reżyser",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_140",
+    "language": "sk",
+    "text": "režisér",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_141",
+    "language": "pl",
+    "text": "komedia",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_141",
+    "language": "sk",
+    "text": "komédia",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_142",
+    "language": "pl",
+    "text": "thriller",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_142",
+    "language": "sk",
+    "text": "thriller",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_143",
+    "language": "pl",
+    "text": "animacja",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_143",
+    "language": "sk",
+    "text": "animácia",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_144",
+    "language": "pl",
+    "text": "napisy",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_films_144",
+    "language": "sk",
+    "text": "titulky",
+    "category": "filmy",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_145",
+    "language": "pl",
+    "text": "biegać",
+    "category": "czasowniki",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_145",
+    "language": "sk",
+    "text": "bežať",
+    "category": "slovesá",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_146",
+    "language": "pl",
+    "text": "rysować",
+    "category": "czasowniki",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_146",
+    "language": "sk",
+    "text": "kresliť",
+    "category": "slovesá",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_147",
+    "language": "pl",
+    "text": "czytać",
+    "category": "czasowniki",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_147",
+    "language": "sk",
+    "text": "čítať",
+    "category": "slovesá",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_148",
+    "language": "pl",
+    "text": "śpiewać",
+    "category": "czasowniki",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_148",
+    "language": "sk",
+    "text": "spievať",
+    "category": "slovesá",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_149",
+    "language": "pl",
+    "text": "tańczyć",
+    "category": "czasowniki",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_149",
+    "language": "sk",
+    "text": "tancovať",
+    "category": "slovesá",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_150",
+    "language": "pl",
+    "text": "budować",
+    "category": "czasowniki",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_150",
+    "language": "sk",
+    "text": "stavať",
+    "category": "slovesá",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_151",
+    "language": "pl",
+    "text": "gotować",
+    "category": "czasowniki",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_151",
+    "language": "sk",
+    "text": "variť",
+    "category": "slovesá",
+    "hint": "",
+    "difficulty": 1,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_152",
+    "language": "pl",
+    "text": "myśleć",
+    "category": "czasowniki",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_152",
+    "language": "sk",
+    "text": "myslieť",
+    "category": "slovesá",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_153",
+    "language": "pl",
+    "text": "słuchać",
+    "category": "czasowniki",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_153",
+    "language": "sk",
+    "text": "počúvať",
+    "category": "slovesá",
+    "hint": "",
+    "difficulty": 2,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_154",
+    "language": "pl",
+    "text": "odpoczywać",
+    "category": "czasowniki",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
+  },
+  {
+    "translation_key": "extra_verbs_154",
+    "language": "sk",
+    "text": "odpočívať",
+    "category": "slovesá",
+    "hint": "",
+    "difficulty": 3,
+    "is_active": true
   }
 ]

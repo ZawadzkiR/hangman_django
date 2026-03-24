@@ -195,6 +195,25 @@ TRANSLATIONS['cs'] = {
     'room_unlimited': 'Bez limitu hráčů',
 }
 
+COOP_DEFAULT_KEYS = {
+    'mode': 'Mode',
+    'mode_vs': 'VS',
+    'mode_coop': 'Co-op',
+    'coop_mode': 'Co-op',
+    'coop_desc': 'Everyone uses the host language and guesses one shared word together, one turn at a time.',
+    'current_turn': 'Current turn',
+    'your_turn': 'Your turn',
+    'waiting_turn': 'Waiting for turn',
+    'language_locked': 'Language is locked by the host in co-op mode.',
+    'shared_letters': 'Team letters',
+    'shared_mistakes': 'Team mistakes',
+    'turn_order': 'Turn order',
+    'join_language_locked': 'Co-op rooms use the host language for all players.',
+}
+for _lang_map in TRANSLATIONS.values():
+    for _k, _v in COOP_DEFAULT_KEYS.items():
+        _lang_map.setdefault(_k, _v)
+
 def get_max_mistakes(mode: str) -> int:
     return MISTAKE_LIMITS.get(mode or DEFAULT_MISTAKE_MODE, MISTAKE_LIMITS[DEFAULT_MISTAKE_MODE])
 
@@ -341,6 +360,11 @@ def room_seconds_left(room: MultiplayerRoom) -> int:
 
 
 def sync_participant_word(room: MultiplayerRoom, participant):
+    if getattr(room, 'room_mode', 'vs') == 'coop':
+        participant.current_word_text = room.current_word_text
+        participant.current_category = room.current_category
+        participant.current_hint = ''
+        return
     word = get_translation_word(room.current_translation_key, participant.language, room.current_word_language)
     if not word:
         word = Word.objects.filter(language=room.current_word_language, translation_key=room.current_translation_key).first()
@@ -363,25 +387,42 @@ def start_room_round(room: MultiplayerRoom):
     room.current_category = selected.category
     room.turn_started_at = timezone.now()
     room.status = 'playing'
+    room.shared_guessed_letters = ''
+    room.shared_mistakes = 0
+    first = room.participants.order_by('order_no', 'joined_at').first()
+    room.current_turn_order = first.order_no if first else 1
     room.save()
 
     for participant in room.participants.all():
         participant.guessed_letters = ''
         participant.mistakes = 0
         participant.round_status = 'playing'
+        participant.is_ready = False
+        if getattr(room, 'room_mode', 'vs') == 'coop':
+            participant.language = room.host_language
         sync_participant_word(room, participant)
         participant.save()
 
 
 def player_round_stats(participant) -> Dict:
-    guessed = deserialize_guessed(participant.guessed_letters)
+    room = getattr(participant, 'room', None)
+    if room and getattr(room, 'room_mode', 'vs') == 'coop':
+        guessed = deserialize_guessed(room.shared_guessed_letters)
+        lang = room.host_language
+        word = room.current_word_text
+        mistakes = room.shared_mistakes
+    else:
+        guessed = deserialize_guessed(participant.guessed_letters)
+        lang = participant.language
+        word = participant.current_word_text
+        mistakes = participant.mistakes
     return {
-        'masked_word': mask_word(participant.current_word_text, guessed, participant.language),
+        'masked_word': mask_word(word, guessed, lang),
         'guessed_letters': sorted(guessed),
-        'won': is_word_guessed(participant.current_word_text, guessed, participant.language),
-        'lost': participant.mistakes >= get_max_mistakes(getattr(participant.room, 'mistake_mode', DEFAULT_MISTAKE_MODE)),
-        'remaining': max(get_max_mistakes(getattr(participant.room, 'mistake_mode', DEFAULT_MISTAKE_MODE)) - participant.mistakes, 0),
-        'keyboard': KEYBOARDS.get(participant.language, KEYBOARDS['en']),
+        'won': is_word_guessed(word, guessed, lang),
+        'lost': mistakes >= get_max_mistakes(getattr(participant.room, 'mistake_mode', DEFAULT_MISTAKE_MODE)),
+        'remaining': max(get_max_mistakes(getattr(participant.room, 'mistake_mode', DEFAULT_MISTAKE_MODE)) - mistakes, 0),
+        'keyboard': KEYBOARDS.get(lang, KEYBOARDS['en']),
     }
 
 
@@ -410,10 +451,43 @@ def finalize_room_if_needed(room: MultiplayerRoom):
         room.save(update_fields=['status'])
         maybe_finish_match(room)
         return
+    if getattr(room, 'room_mode', 'vs') == 'coop':
+        guessed = deserialize_guessed(room.shared_guessed_letters)
+        if is_word_guessed(room.current_word_text, guessed, room.host_language):
+            score_gain = calculate_word_score(room.current_word_text, room.shared_mistakes, True, seconds_left)
+            for p in participants:
+                if p.round_status == 'playing':
+                    p.round_status = 'won'
+                    p.score += score_gain
+                    p.save(update_fields=['round_status', 'score'])
+            room.status = 'round_over'
+            room.save(update_fields=['status'])
+            maybe_finish_match(room)
+            return
+        if room.shared_mistakes >= get_max_mistakes(getattr(room, 'mistake_mode', DEFAULT_MISTAKE_MODE)):
+            for p in participants:
+                if p.round_status == 'playing':
+                    p.round_status = 'lost'
+                    p.save(update_fields=['round_status'])
+            room.status = 'round_over'
+            room.save(update_fields=['status'])
+            maybe_finish_match(room)
+            return
     if all(p.round_status in {'won', 'lost', 'timeout'} for p in participants):
         room.status = 'round_over'
         room.save(update_fields=['status'])
         maybe_finish_match(room)
+
+
+def next_turn_order(room: MultiplayerRoom, current_order: int) -> int:
+    participants = list(room.participants.order_by('order_no', 'joined_at'))
+    if not participants:
+        return 1
+    orders = [p.order_no for p in participants]
+    if current_order not in orders:
+        return orders[0]
+    idx = orders.index(current_order)
+    return orders[(idx + 1) % len(orders)]
 
 
 def all_ready(room: MultiplayerRoom) -> bool:
@@ -450,20 +524,22 @@ def room_state(room: MultiplayerRoom, participant, ui_lang: str) -> Dict:
     waiting = waiting_summary(room)
     ranking = sorted(participants, key=lambda p: (-p.score, p.order_no))
     is_host = participant.session_token == room.host_session
+    current_turn = next((p.nickname for p in participants if p.order_no == room.current_turn_order), '')
     return {
         'room': {
             'code': room.code, 'status': room.status, 'round_number': room.round_number, 'turn_seconds': room.turn_seconds, 'seconds_left': room_seconds_left(room),
             'host_name': room.host_name, 'current_category': participant.current_category or room.current_category, 'max_rounds': room.max_rounds, 'target_score': room.target_score,
             'winner_name': room.winner_name, 'difficulty_mode': room.difficulty_mode, 'category_mode': room.category_mode, 'mistake_mode': room.mistake_mode,
             'max_mistakes': get_max_mistakes(room.mistake_mode), 'is_host': is_host, 'can_start': can_start_room(room, participant),
-            'can_next': is_host and room.status == 'round_over' and room.status != 'finished', 'revealed_word': participant.current_word_text, **waiting,
+            'can_next': is_host and room.status == 'round_over' and room.status != 'finished', 'revealed_word': participant.current_word_text, 'mode': getattr(room, 'room_mode', 'vs'),
+            'current_turn_nickname': current_turn, 'is_current_turn': participant.order_no == room.current_turn_order, 'shared_mistakes': room.shared_mistakes, **waiting,
         },
         'you': {
             'nickname': participant.nickname, 'language': participant.language, 'score': participant.score, 'mistakes': participant.mistakes, 'status': participant.round_status,
             'is_ready': participant.is_ready, 'stats': stats, 'current_hint': participant.current_hint, 'current_word': participant.current_word_text,
         },
         'players': [
-            {'nickname': p.nickname, 'score': p.score, 'status': p.round_status, 'is_host': p.session_token == room.host_session, 'is_you': p.id == participant.id, 'is_ready': p.is_ready}
+            {'nickname': p.nickname, 'score': p.score, 'status': p.round_status, 'is_host': p.session_token == room.host_session, 'is_you': p.id == participant.id, 'is_ready': p.is_ready, 'is_current_turn': p.order_no == room.current_turn_order, 'language': p.language}
             for p in ranking
         ],
         'final_ranking': [{'nickname': p.nickname, 'score': p.score, 'status': p.round_status} for p in ranking],

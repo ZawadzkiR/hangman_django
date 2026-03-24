@@ -25,6 +25,42 @@
     return data;
   }
 
+
+  let audioCtx = null;
+  function ensureAudio() {
+    if (!audioCtx) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      audioCtx = new Ctx();
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+  function beep(type = 'tap') {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const notes = {
+      tap: [[620, 0.03, 0.02]],
+      hit: [[740, 0.04, 0.04], [920, 0.06, 0.03]],
+      miss: [[280, 0.05, 0.04], [220, 0.08, 0.02]],
+      done: [[520, 0.06, 0.05], [660, 0.08, 0.04], [820, 0.12, 0.03]],
+      next: [[460, 0.04, 0.03], [580, 0.05, 0.02]],
+    };
+    (notes[type] || notes.tap).forEach(([freq, dur, gain], idx) => {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      g.gain.setValueAtTime(0.0001, now + idx * 0.06);
+      g.gain.exponentialRampToValueAtTime(gain, now + idx * 0.06 + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.06 + dur);
+      osc.connect(g).connect(ctx.destination);
+      osc.start(now + idx * 0.06);
+      osc.stop(now + idx * 0.06 + dur + 0.01);
+    });
+  }
+
   function updateHangman(selector, mistakes, maxMistakes = 6) {
     const parts = Array.from(document.querySelectorAll(selector));
     const total = parts.length || 1;
@@ -97,6 +133,7 @@
         if (btn.disabled) return;
         const data = await post(single.dataset.guessUrl, { letter: btn.dataset.letter }, csrf);
         if (!data.ok) return;
+        beep(data.already_used ? 'tap' : (data.hit ? 'hit' : 'miss'));
         liveMessage.textContent = data.already_used ? `${single.dataset.alreadyUsed}: ${btn.dataset.letter}` : `${data.hit ? single.dataset.hitMsg : single.dataset.missMsg}: ${btn.dataset.letter}`;
         liveMessage.className = `live-message ${data.hit ? 'hit' : 'miss'}`;
         renderGame(data.game, data.stats);
@@ -106,6 +143,7 @@
     continueBtn?.addEventListener('click', async () => {
       liveMessage.textContent = single.dataset.nextWord;
       closeModal();
+      beep('next');
       const data = await post(single.dataset.newRoundUrl, {}, csrf);
       if (data.ok) renderGame(data.game, data.stats);
     });
@@ -119,6 +157,7 @@
     });
     playAgainBtn?.addEventListener('click', async () => {
       closeModal();
+      beep('next');
       const data = await post(single.dataset.newRoundUrl, {}, csrf);
       if (data.ok) renderGame(data.game, data.stats);
     });
@@ -145,6 +184,10 @@
     const roomPlayerCount = document.getElementById('room-player-count');
     const roomPlayerCountHost = document.getElementById('room-player-count-host');
     const roomAnswerStat = document.getElementById('room-answer-stat');
+    const roomModeText = document.getElementById('room-mode-text');
+    const roomCurrentTurn = document.getElementById('room-current-turn');
+    const roomLanguageLock = document.getElementById('room-language-lock');
+    const roomUsedLabel = document.getElementById('room-used-label');
     const roomAnswerValue = document.getElementById('room-answer-value');
     const roomMaxMistakes = document.getElementById('room-max-mistakes');
     const startBtn = document.getElementById('room-start-btn');
@@ -174,16 +217,31 @@
     let dismissedRoundPopupKey = null;
     const autoReloadStorageKey = `hangman-room-round-refresh:${window.location.pathname}`;
 
-    function renderPlayers(players, labels) {
+    function statusBadge(p, labels, state) {
+      if (state?.room?.mode === 'coop' && p.status === 'playing') {
+        if (p.is_current_turn) return `<span class="status-badge playing">👉 ${p.is_you ? room.dataset.yourTurnLabel : room.dataset.currentTurnLabel}</span>`;
+        return `<span class="status-badge idle">⏳ ${room.dataset.waitingTurnLabel}</span>`;
+      }
+      const map = {
+        playing: ['⏳', labels[p.status] || p.status, 'playing'],
+        won: ['✅', labels[p.status] || p.status, 'won'],
+        lost: ['❌', labels[p.status] || p.status, 'lost'],
+        timeout: ['⌛', labels[p.status] || p.status, 'timeout'],
+        idle: [p.is_ready ? '🟢' : '⚪', p.is_ready ? 'Ready' : 'Not ready', p.is_ready ? 'ready' : 'idle'],
+      };
+      const [icon, text, cls] = map[p.status] || ['•', labels[p.status] || p.status, 'idle'];
+      return `<span class="status-badge ${cls}">${icon} ${text}</span>`;
+    }
+    function renderPlayers(players, labels, state) {
       roomPlayers.innerHTML = players.map((p, index) => `
-        <div class="player-pill compact ${p.is_you ? 'you' : ''}">
+        <div class="player-pill compact ${p.is_you ? 'you' : ''} status-${p.status}">
           <div class="player-pill-main">
             <strong>${index + 1}. ${p.nickname}${p.is_host ? ' ⭐' : ''}</strong>
             <span class="player-pill-score">${p.score}</span>
           </div>
           <div class="player-pill-meta">
-            <em>${p.is_ready ? 'Ready' : '...'}</em>
-            <small>${labels[p.status] || p.status}</small>
+            ${statusBadge(p, labels, state)}
+            <small>${state?.room?.mode === 'coop' ? (p.is_current_turn ? (p.is_you ? room.dataset.yourTurnLabel : room.dataset.currentTurnLabel) : room.dataset.waitingTurnLabel) : (p.status === 'playing' ? 'Still solving…' : (p.is_ready ? 'Ready for next round' : 'Waiting'))}</small>
           </div>
         </div>`).join('');
     }
@@ -198,6 +256,7 @@
       const letter = ev.currentTarget.dataset.letter;
       const data = await post(room.dataset.guessUrl, { letter }, csrf);
       if (!data.ok) return;
+      beep(data.already_used ? 'tap' : (data.hit ? 'hit' : 'miss'));
       roomLive.textContent = data.already_used ? `${room.dataset.alreadyUsed}: ${letter}` : `${data.hit ? room.dataset.hitMsg : room.dataset.missMsg}: ${letter}`;
       roomLive.className = `live-message ${data.hit ? 'hit' : 'miss'}`;
       renderState(data.state);
@@ -287,8 +346,13 @@
       if (version !== null && version < roomStateVersion) return;
       if (version !== null) roomStateVersion = version;
       const effectiveStatus = effectiveRoomStatus(data);
+      const previousPopupKey = lastRoundPopupKey;
       if (maybeAutoReloadForRoundEnd(data, effectiveStatus)) return;
       roomWord.textContent = data.you.stats.masked_word;
+      if (roomModeText) roomModeText.textContent = data.room.mode === 'coop' ? room.dataset.modeCoop : room.dataset.modeVs;
+      if (roomCurrentTurn) roomCurrentTurn.textContent = data.room.current_turn_nickname || '—';
+      if (roomLanguageLock) roomLanguageLock.classList.toggle('hidden', data.room.mode !== 'coop');
+      if (roomUsedLabel) roomUsedLabel.textContent = (data.room.mode === 'coop' ? room.dataset.sharedLettersLabel : room.dataset.usedLettersLabel || 'Used') + ':';
       roomCategory.textContent = data.room.current_category || '—';
       const showRevealBanner = shouldShowRoundWord(data);
       if (roomRevealBanner) roomRevealBanner.classList.toggle('hidden', !showRevealBanner);
@@ -296,7 +360,7 @@
       if (roomMaxMistakes) roomMaxMistakes.textContent = data.room.max_mistakes;
       roomUsed.textContent = data.you.stats.guessed_letters.length ? data.you.stats.guessed_letters.map((x) => x.toUpperCase()).join(', ') : room.dataset.noneLabel;
       roomRemaining.textContent = data.you.stats.remaining;
-      roomStatus.textContent = data.labels[data.you.status] || data.you.status;
+      roomStatus.textContent = data.room.mode === 'coop' && data.you.status === 'playing' ? (data.room.is_current_turn ? room.dataset.yourTurnLabel : room.dataset.waitingTurnLabel) : (data.labels[data.you.status] || data.you.status);
       roomTimer.textContent = data.room.seconds_left;
       roomRound.textContent = `${data.room.round_number}/${data.room.max_rounds}`;
       roomScore.textContent = data.you.score;
@@ -306,9 +370,9 @@
       const revealInline = ['won', 'lost', 'timeout'].includes(data.you.status) || ['round_over', 'finished'].includes(effectiveStatus) || !!data.room.can_next;
       if (roomAnswerStat) roomAnswerStat.classList.toggle('hidden', !revealInline);
       if (roomAnswerValue && revealInline) roomAnswerValue.textContent = revealWord(data);
-      updateHangman('.room-part', data.you.mistakes, data.room.max_mistakes);
-      buildKeyboard(data.you.stats.keyboard, data.you.stats.guessed_letters, effectiveStatus !== 'playing' || data.you.status !== 'playing');
-      renderPlayers(data.players, data.labels);
+      updateHangman('.room-part', data.room.mode === 'coop' ? data.room.shared_mistakes : data.you.mistakes, data.room.max_mistakes);
+      buildKeyboard(data.you.stats.keyboard, data.you.stats.guessed_letters, effectiveStatus !== 'playing' || data.you.status !== 'playing' || (data.room.mode === 'coop' && !data.room.is_current_turn));
+      renderPlayers(data.players, data.labels, data);
       if (roundSummary) {
         const showRoundSummary = showRevealBanner;
         roundSummary.classList.toggle('hidden', !showRoundSummary);
@@ -342,6 +406,7 @@
 
       const popupKey = forcedRoundEndKey || roundPopupKey(data, effectiveStatus);
       const showPopup = (!!forcedRoundEndKey || shouldShowRoundPopup(data, effectiveStatus)) && popupKey !== dismissedRoundPopupKey;
+      if (showPopup && popupKey !== lastRoundPopupKey) beep('done');
       modal.dataset.lockOpen = showPopup ? '1' : '0';
       if (showPopup) {
         if (popupKey !== lastRoundPopupKey || modal.classList.contains('hidden')) {
@@ -372,9 +437,9 @@
       }
       if (data.ok) renderState(data.state, version);
     }
-    readyBtn?.addEventListener('click', async () => { roomStateVersion += 1; const data = await post(room.dataset.readyUrl, {}, csrf); if (data.ok) renderState(data.state, roomStateVersion); });
-    startBtn?.addEventListener('click', async () => { roomStateVersion += 1; const data = await post(room.dataset.startUrl, {}, csrf); if (data.ok) renderState(data.state, roomStateVersion); else if (data.message) roomLive.textContent = data.message; });
-    nextBtn?.addEventListener('click', async () => { roomStateVersion += 1; const data = await post(room.dataset.nextRoundUrl, {}, csrf); if (data.ok) renderState(data.state, roomStateVersion); });
+    readyBtn?.addEventListener('click', async () => { beep('tap'); roomStateVersion += 1; const data = await post(room.dataset.readyUrl, {}, csrf); if (data.ok) renderState(data.state, roomStateVersion); });
+    startBtn?.addEventListener('click', async () => { beep('next'); roomStateVersion += 1; const data = await post(room.dataset.startUrl, {}, csrf); if (data.ok) renderState(data.state, roomStateVersion); else if (data.message) roomLive.textContent = data.message; });
+    nextBtn?.addEventListener('click', async () => { beep('next'); roomStateVersion += 1; const data = await post(room.dataset.nextRoundUrl, {}, csrf); if (data.ok) renderState(data.state, roomStateVersion); });
     leaveBtn?.addEventListener('click', async () => { const data = await post(room.dataset.leaveUrl, {}, csrf); if (data.ok && data.redirect) window.location.href = data.redirect; });
     modalClose?.addEventListener('click', () => {
       dismissedRoundPopupKey = forcedRoundEndKey || lastRoundPopupKey;
@@ -391,6 +456,39 @@
       await post(uiLangSwitch.dataset.url, { language: uiLangSwitch.value }, uiLangSwitch.dataset.csrf);
       window.location.reload();
     });
+  }
+
+
+  const openRoomsForm = document.getElementById('open-rooms-form');
+  if (openRoomsForm) {
+    const list = document.getElementById('open-rooms-list');
+    const url = openRoomsForm.dataset.openRoomsUrl;
+    async function loadOpenRooms() {
+      const response = await fetch(`${url}?_=${Date.now()}`, { cache: 'no-store', credentials: 'same-origin' });
+      let data = {};
+      try { data = await response.json(); } catch (e) { data = { ok: false }; }
+      if (!data.ok || !list) return;
+      if (!(data.rooms || []).length) {
+        list.innerHTML = '<p class="chalk-small">No free rooms right now.</p>';
+        return;
+      }
+      list.innerHTML = data.rooms.map((r) => `
+        <article class="open-room-card">
+          <div class="open-room-head"><strong>${r.code}</strong><span>${r.player_count} players</span></div>
+          <div class="open-room-meta">
+            <span>Host: ${r.host_name}</span>
+            <span>Ready: ${r.ready_count}/${r.player_count}</span>
+            <span>Mode: ${r.mode === 'coop' ? 'Co-op' : 'VS'}</span>
+            <span>Lang: ${r.language.toUpperCase()}</span>
+            <span>Time: ${r.turn_seconds}s</span>
+            <span>Rounds: ${r.max_rounds}</span>
+          </div>
+          <button type="submit" class="tray-btn open-room-join-btn" name="room_code" value="${r.code}">Join room</button>
+        </article>
+      `).join('');
+    }
+    setInterval(loadOpenRooms, 5000);
+    loadOpenRooms();
   }
 
   document.querySelectorAll('.dynamic-category-form').forEach((form) => {

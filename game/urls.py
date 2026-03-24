@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/new-round/', views.api_new_round, name='api_new_round'),
     path('api/set-ui-language/', views.api_set_ui_language, name='api_set_ui_language'),
     path('api/categories/', views.api_categories, name='api_categories'),
+    path('api/open-rooms/', views.api_open_rooms, name='api_open_rooms'),
     path('api/room/<str:code>/state/', views.api_room_state, name='api_room_state'),
     path('api/room/<str:code>/ready/', views.api_room_ready, name='api_room_ready'),
     path('api/room/<str:code>/start/', views.api_room_start, name='api_room_start'),

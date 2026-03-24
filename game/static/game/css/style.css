@@ -1297,3 +1297,50 @@ body.room-page {
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px) !important;
   }
 }
+
+
+/* Added polish for free rooms, player statuses, bigger keyboard */
+.tabs-header { grid-template-columns: repeat(3, 1fr); }
+.open-rooms-list { display: grid; gap: 10px; max-height: 420px; overflow: auto; padding-right: 4px; }
+.open-room-card { background: rgba(0,0,0,.16); border: 1px solid rgba(255,255,255,.10); border-radius: 18px; padding: 12px; display: grid; gap: 8px; }
+.open-room-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 800; }
+.open-room-meta { display: flex; flex-wrap: wrap; gap: 8px 12px; font-size: .9rem; opacity: .9; }
+.open-room-join-btn { min-height: 48px; }
+.room-category-value { font-size: clamp(1.35rem, 3.4vw, 2rem) !important; line-height: 1.2; }
+.category-line-room { font-size: 1.15rem; }
+.keyboard { grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 12px; }
+.key-btn { min-height: 62px; font-size: 1.95rem; border-radius: 20px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); }
+.player-pill { padding: 12px 14px; }
+.player-pill-main { display:flex; justify-content:space-between; gap:8px; align-items:center; }
+.player-pill-score { font-size: 1.05rem; font-weight: 800; }
+.player-pill-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap: wrap; }
+.status-badge { display:inline-flex; align-items:center; gap:6px; border-radius:999px; padding:5px 10px; font-size:.88rem; font-weight:800; background: rgba(255,255,255,.08); }
+.status-badge.playing { background: rgba(91,192,222,.18); }
+.status-badge.won { background: rgba(92,184,92,.22); }
+.status-badge.lost, .status-badge.timeout { background: rgba(217,83,79,.22); }
+.status-badge.ready { background: rgba(240,197,98,.20); }
+.status-badge.idle { background: rgba(255,255,255,.08); }
+.player-pill.status-playing { outline: 1px solid rgba(91,192,222,.35); }
+.player-pill.status-won { outline: 1px solid rgba(92,184,92,.35); }
+.player-pill.status-lost, .player-pill.status-timeout { outline: 1px solid rgba(217,83,79,.35); }
+@media (max-width: 720px) {
+  .tabs-header { grid-template-columns: 1fr; }
+  .open-room-meta { display:grid; grid-template-columns: 1fr 1fr; }
+  .keyboard { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .key-btn { min-height: 58px; font-size: 1.6rem; }
+  .player-pill-meta { align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 520px) {
+  .keyboard { grid-template-columns: repeat(4, 1fr); }
+  .key-btn { min-height: 56px; font-size: 1.45rem; }
+  .room-category-value { font-size: 1.5rem !important; }
+}
+
+
+/* Co-op additions */
+.coop-turn-line strong{font-size:1.2rem;}
+#room-language-lock{margin-top:.35rem;text-align:center;}
+.status-badge.ready{background:rgba(92, 201, 129, .18);}
+.status-badge.playing{background:rgba(79,149,255,.18);}
+.open-room-meta span{display:inline-block;margin-right:.6rem;}
+#room-mode-text{font-weight:800;}

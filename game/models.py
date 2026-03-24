@@ -34,6 +34,11 @@ PLAYER_STATUS = [
     ('timeout', 'Timeout'),
 ]
 
+ROOM_MODE_CHOICES = [
+    ('vs', 'VS'),
+    ('coop', 'Co-op'),
+]
+
 
 class Player(models.Model):
     username = models.CharField(max_length=32, unique=True)
@@ -88,6 +93,7 @@ class MultiplayerRoom(models.Model):
     host_name = models.CharField(max_length=32)
     host_session = models.CharField(max_length=64, db_index=True)
     host_language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES, default='en')
+    room_mode = models.CharField(max_length=12, choices=ROOM_MODE_CHOICES, default='vs')
     status = models.CharField(max_length=16, choices=ROOM_STATUS, default='waiting')
     turn_seconds = models.PositiveIntegerField(default=45)
     max_players = models.PositiveIntegerField(default=999999)
@@ -102,6 +108,9 @@ class MultiplayerRoom(models.Model):
     current_word_language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES, default='en')
     current_category = models.CharField(max_length=64, blank=True)
     winner_name = models.CharField(max_length=32, blank=True)
+    shared_guessed_letters = models.TextField(blank=True)
+    shared_mistakes = models.PositiveSmallIntegerField(default=0)
+    current_turn_order = models.PositiveIntegerField(default=1)
     turn_started_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
